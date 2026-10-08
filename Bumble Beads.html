@@ -1,702 +1,619 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>BeaCraft – Tự tạo món đồ của riêng bạn</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-<style>
-
-:root {
-    --pink: #ed6b9b;
-    --pink-dark: #d94e82;
-    --pink-light: #fff0f5;
-    --pink-soft: #ffe1eb;
-    --white: #ffffff;
-    --text: #654657;
-    --muted: #9b7c89;
-    --border: #f4d9e3;
-    --shadow: 0 12px 35px rgba(220,108,148,.12);
-}
-
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-html {
-    scroll-behavior: smooth;
-}
-
-body {
-    background: #fff9fb;
-    color: var(--text);
-    font-family: "Quicksand", sans-serif;
-}
-
-/* ================= HEADER ================= */
-
-header {
-    height: 76px;
-    background: rgba(255,255,255,.97);
-    border-bottom: 1px solid #f6e1e8;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 6%;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-}
-
-.logo {
-    font-family: "Baloo 2", cursive;
-    font-size: 27px;
-    font-weight: 800;
-    color: var(--pink);
-}
-
-.logo span {
-    color: #f59ab8;
-}
-
-nav {
-    display: flex;
-    gap: 30px;
-}
-
-nav a {
-    text-decoration: none;
-    color: #765563;
-    font-size: 14px;
-    font-weight: 600;
-}
-
-nav a:hover {
-    color: var(--pink);
-}
-
-.header-right {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.login-btn {
-    border: 1px solid #f0aac2;
-    background: white;
-    color: var(--pink);
-    padding: 9px 18px;
-    border-radius: 22px;
-    font-family: "Quicksand";
-    font-weight: 700;
-    cursor: pointer;
-    transition: .2s;
-}
-
-.login-btn:hover {
-    background: var(--pink-light);
-}
-
-.icon-btn {
-    border: none;
-    background: transparent;
-    font-size: 20px;
-    cursor: pointer;
-}
-
-/* ================= HERO ================= */
-
-.hero {
-    min-height: 600px;
-    padding: 70px 7%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    overflow: hidden;
-
-    background:
-        radial-gradient(circle at 10% 20%, #ffe3ed 0 5px, transparent 6px),
-        radial-gradient(circle at 80% 30%, #ffd4e4 0 6px, transparent 7px),
-        linear-gradient(135deg,#fff1f6,#ffe2ec);
-}
-
-.hero-text {
-    max-width: 520px;
-}
-
-.hero-small {
-    color: var(--pink);
-    font-weight: 700;
-    margin-bottom: 12px;
-}
-
-.hero h1 {
-    font-family: "Baloo 2", cursive;
-    font-size: 64px;
-    line-height: 1;
-    color: #d95787;
-    margin-bottom: 25px;
-}
-
-.hero p {
-    font-size: 17px;
-    line-height: 1.8;
-    color: #795968;
-    margin-bottom: 30px;
-}
-
-.primary-btn {
-    border: none;
-    background: linear-gradient(135deg,#f27ba7,#e95f91);
-    color: white;
-    padding: 15px 30px;
-    border-radius: 30px;
-    font-family: "Quicksand";
-    font-weight: 700;
-    font-size: 15px;
-    cursor: pointer;
-    box-shadow: 0 8px 20px rgba(231,95,145,.25);
-    transition: .25s;
-}
-
-.primary-btn:hover {
-    transform: translateY(-3px);
-}
-
-.hero-image {
-    width: 470px;
-    height: 470px;
-    border-radius: 50%;
-    background: #fff;
-    box-shadow: var(--shadow);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.bracelet {
-    width: 280px;
-    height: 280px;
-    border-radius: 50%;
-    border: 18px dotted #f39bb9;
-    position: relative;
-}
-
-.charm {
-    position: absolute;
-    bottom: -20px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 55px;
-}
-
-/* ================= BENEFITS ================= */
-
-.benefits {
-    display: grid;
-    grid-template-columns: repeat(4,1fr);
-    gap: 20px;
-    padding: 25px 7%;
-    background: white;
-}
-
-.benefit {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 15px;
-}
-
-.benefit-icon {
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    background: var(--pink-light);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* ================= SECTION ================= */
-
-.section {
-    padding: 80px 7%;
-}
-
-.section-title {
-    text-align: center;
-    margin-bottom: 45px;
-}
-
-.section-title h2 {
-    font-family: "Baloo 2";
-    color: #d95787;
-    font-size: 40px;
-}
-
-.section-title p {
-    color: var(--muted);
-}
-
-/* ================= PRODUCT ================= */
-
-.products {
-    display: grid;
-    grid-template-columns: repeat(5,1fr);
-    gap: 18px;
-}
-
-.product-card {
-    background: white;
-    border: 1px solid var(--border);
-    border-radius: 22px;
-    padding: 14px;
-    text-align: center;
-    cursor: pointer;
-    transition: .25s;
-}
-
-.product-card:hover,
-.product-card.active {
-    transform: translateY(-6px);
-    border: 2px solid #ee719e;
-    box-shadow: var(--shadow);
-}
-
-.product-image {
-    height: 180px;
-    border-radius: 18px;
-    background: linear-gradient(145deg,#fff0f5,#ffe1eb);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 70px;
-    margin-bottom: 15px;
-}
-
-.product-card h3 {
-    font-family: "Baloo 2";
-    font-size: 20px;
-}
-
-.product-card p {
-    color: var(--pink);
-    font-size: 13px;
-    margin-top: 5px;
-}
-
-/* ================= CUSTOMIZER ================= */
-
-.customizer-section {
-    background: #fff1f6;
-}
-
-.customizer {
-    background: white;
-    border-radius: 30px;
-    padding: 25px;
-    display: grid;
-    grid-template-columns: 260px 1fr 280px;
-    gap: 25px;
-    box-shadow: var(--shadow);
-}
-
-.panel-title {
-    font-family: "Baloo 2";
-    font-size: 23px;
-    color: #d95787;
-    margin-bottom: 15px;
-}
-
-.bead-menu {
-    display: grid;
-    grid-template-columns: repeat(2,1fr);
-    gap: 12px;
-}
-
-.bead-option {
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 10px 5px;
-    text-align: center;
-    background: #fffafa;
-    cursor: pointer;
-    transition: .2s;
-}
-
-.bead-option:hover {
-    border-color: var(--pink);
-    transform: scale(1.03);
-}
-
-.bead {
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    margin: auto auto 7px;
-    box-shadow:
-        inset -5px -7px 10px rgba(0,0,0,.08),
-        inset 4px 4px 8px rgba(255,255,255,.7);
-}
-
-.bead-name {
-    font-size: 12px;
-}
-
-.price {
-    color: var(--pink);
-    font-weight: 700;
-    font-size: 11px;
-}
-
-/* ================= PREVIEW ================= */
-
-.preview {
-    background: #fff5f8;
-    border-radius: 25px;
-    min-height: 500px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-}
-
-.preview h3 {
-    position: absolute;
-    top: 20px;
-    font-family: "Baloo 2";
-    color: #d95787;
-}
-
-.custom-bracelet {
-    width: 310px;
-    height: 310px;
-    border-radius: 50%;
-    border: 15px solid #f3d5df;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-}
-
-.bead-circle {
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    position: absolute;
-    box-shadow:
-        inset -5px -5px 8px rgba(0,0,0,.12),
-        inset 4px 4px 8px rgba(255,255,255,.8);
-}
-
-/* ================= SUMMARY ================= */
-
-.summary {
-    background: #fff;
-    border: 1px solid var(--border);
-    border-radius: 22px;
-    padding: 20px;
-}
-
-.summary-list {
-    min-height: 230px;
-    margin-bottom: 20px;
-}
-
-.summary-item {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 0;
-    border-bottom: 1px dashed #efdce4;
-    font-size: 13px;
-}
-
-.total {
-    display: flex;
-    justify-content: space-between;
-    margin: 20px 0;
-    font-size: 20px;
-    font-weight: 700;
-}
-
-.total span:last-child {
-    color: var(--pink);
-}
-
-.full-btn {
-    width: 100%;
-}
-
-/* ================= GUIDE ================= */
-
-footer {
-    background: #fff0f5;
-    padding: 50px 7%;
-    text-align: center;
-}
-
-footer p {
-    color: var(--muted);
-    font-size: 13px;
-}
-
-/* ================= LOGIN MODAL ================= */
-
-.modal {
-    position: fixed;
-    inset: 0;
-    background: rgba(91,49,65,.35);
-    backdrop-filter: blur(5px);
-
-    display: none;
-    align-items: center;
-    justify-content: center;
-
-    z-index: 999;
-}
-
-.modal.show {
-    display: flex;
-}
-
-.login-box {
-    width: 420px;
-    max-width: 90%;
-    background: white;
-    border-radius: 30px;
-    padding: 35px;
-    box-shadow: 0 25px 70px rgba(100,50,70,.2);
-    position: relative;
-    animation: popup .25s ease;
-}
-
-@keyframes popup {
-    from {
-        transform: scale(.9);
-        opacity: 0;
-    }
-    to {
-        transform: scale(1);
-        opacity: 1;
-    }
-}
-
-.close-modal {
-    position: absolute;
-    right: 22px;
-    top: 18px;
-    border: none;
-    background: none;
-    font-size: 23px;
-    color: #b58c9c;
-    cursor: pointer;
-}
-
-.login-header {
-    text-align: center;
-    margin-bottom: 25px;
-}
-
-.login-header .heart {
-    font-size: 38px;
-}
-
-.login-header h2 {
-    font-family: "Baloo 2";
-    font-size: 32px;
-    color: #d95787;
-}
-
-.login-header p {
-    color: var(--muted);
-    font-size: 13px;
-}
-
-.form-group {
-    margin-bottom: 16px;
-}
-
-.form-group label {
-    display: block;
-    font-size: 13px;
-    font-weight: 700;
-    margin-bottom: 7px;
-}
-
-.form-group input {
-    width: 100%;
-    padding: 13px 15px;
-    border: 1px solid #efd9e2;
-    border-radius: 14px;
-    outline: none;
-    font-family: "Quicksand";
-}
-
-.form-group input:focus {
-    border-color: var(--pink);
-    box-shadow: 0 0 0 3px #ffeaf1;
-}
-
-.login-main-btn {
-    width: 100%;
-    margin-top: 5px;
-}
-
-.google-btn {
-    width: 100%;
-    padding: 12px;
-    border-radius: 25px;
-    border: 1px solid #eadde2;
-    background: white;
-    color: #654657;
-    font-family: "Quicksand";
-    font-weight: 700;
-    cursor: pointer;
-    margin-top: 12px;
-}
-
-.divider {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: #b999a6;
-    font-size: 12px;
-    margin: 18px 0;
-}
-
-.divider::before,
-.divider::after {
-    content: "";
-    height: 1px;
-    background: #f0dfe5;
-    flex: 1;
-}
-
-.switch-form {
-    text-align: center;
-    margin-top: 18px;
-    font-size: 13px;
-}
-
-.switch-form button {
-    border: none;
-    background: none;
-    color: var(--pink);
-    font-weight: 700;
-    cursor: pointer;
-}
-
-/* ================= RESPONSIVE ================= */
-
-@media(max-width:1000px) {
-
-    nav {
-        display:none;
-    }
-
-    .hero {
-        flex-direction: column;
-        text-align:center;
-        gap:50px;
-    }
-
-    .hero h1 {
-        font-size:50px;
-    }
-
-    .benefits {
-        grid-template-columns:repeat(2,1fr);
-    }
-
-    .products {
-        grid-template-columns:repeat(3,1fr);
-    }
-
-    .customizer {
-        grid-template-columns:1fr;
-    }
-}
-
-@media(max-width:600px) {
-
-    header {
-        padding:0 20px;
-    }
-
-    .login-btn {
-        padding:8px 12px;
-        font-size:12px;
-    }
-
-    .header-icons {
-        display:none;
-    }
-
-    .hero {
-        padding:50px 20px;
-    }
-
-    .hero h1 {
-        font-size:43px;
-    }
-
-    .hero-image {
-        width:300px;
-        height:300px;
-    }
-
-    .bracelet {
-        width:190px;
-        height:190px;
-    }
-
-    .benefits {
-        grid-template-columns:1fr;
-        padding:20px;
-    }
-
-    .section {
-        padding:55px 20px;
-    }
-
-    .products {
-        grid-template-columns:repeat(2,1fr);
-    }
-
-    .custom-bracelet {
-        width:260px;
-        height:260px;
-    }
-
-    .login-box {
-        padding:25px;
-    }
-}
-
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BeaCraft – Tự tạo món đồ của riêng bạn</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --pink: #ed6b9b;
+            --pink-dark: #d94e82;
+            --pink-light: #fff0f5;
+            --pink-soft: #ffe1eb;
+            --white: #ffffff;
+            --text: #654657;
+            --muted: #9b7c89;
+            --border: #f4d9e3;
+            --shadow: 0 12px 35px rgba(220,108,148,.12);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: #fff9fb;
+            color: var(--text);
+            font-family: "Quicksand", sans-serif;
+        }
+
+        /* HEADER */
+        header {
+            height: 76px;
+            background: rgba(255,255,255,.97);
+            border-bottom: 1px solid #f6e1e8;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 6%;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-family: "Baloo 2", cursive;
+            font-size: 27px;
+            font-weight: 800;
+            color: var(--pink);
+        }
+
+        .logo span {
+            color: #f59ab8;
+        }
+
+        nav {
+            display: flex;
+            gap: 30px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #765563;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        nav a:hover {
+            color: var(--pink);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .login-btn {
+            border: 1px solid #f0aac2;
+            background: white;
+            color: var(--pink);
+            padding: 9px 18px;
+            border-radius: 22px;
+            font-family: "Quicksand";
+            font-weight: 700;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .login-btn:hover {
+            background: var(--pink-light);
+        }
+
+        .icon-btn {
+            border: none;
+            background: transparent;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        /* HERO */
+        .hero {
+            min-height: 600px;
+            padding: 70px 7%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            overflow: hidden;
+            background:
+                radial-gradient(circle at 10% 20%, #ffe3ed 0 5px, transparent 6px),
+                radial-gradient(circle at 80% 30%, #ffd4e4 0 6px, transparent 7px),
+                linear-gradient(135deg,#fff1f6,#ffe2ec);
+        }
+
+        .hero-text {
+            max-width: 520px;
+        }
+
+        .hero-small {
+            color: var(--pink);
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .hero h1 {
+            font-family: "Baloo 2", cursive;
+            font-size: 64px;
+            line-height: 1.1;
+            color: #d95787;
+            margin-bottom: 25px;
+        }
+
+        .hero p {
+            font-size: 17px;
+            line-height: 1.8;
+            color: #795968;
+            margin-bottom: 30px;
+        }
+
+        .primary-btn {
+            border: none;
+            background: linear-gradient(135deg,#f27ba7,#e95f91);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-family: "Quicksand";
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(231,95,145,.25);
+            transition: .25s;
+        }
+
+        .primary-btn:hover {
+            transform: translateY(-3px);
+        }
+
+        .hero-image {
+            width: 470px;
+            height: 470px;
+            border-radius: 50%;
+            background: #fff;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .bracelet {
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            border: 18px dotted #f39bb9;
+            position: relative;
+        }
+
+        .charm {
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 55px;
+        }
+
+        /* BENEFITS */
+        .benefits {
+            display: grid;
+            grid-template-columns: repeat(4,1fr);
+            gap: 20px;
+            padding: 25px 7%;
+            background: white;
+        }
+
+        .benefit {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px;
+        }
+
+        .benefit-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: var(--pink-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* SECTION */
+        .section {
+            padding: 80px 7%;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 45px;
+        }
+
+        .section-title h2 {
+            font-family: "Baloo 2";
+            color: #d95787;
+            font-size: 40px;
+        }
+
+        .section-title p {
+            color: var(--muted);
+        }
+
+        /* PRODUCTS */
+        .products {
+            display: grid;
+            grid-template-columns: repeat(5,1fr);
+            gap: 18px;
+        }
+
+        .product-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 22px;
+            padding: 14px;
+            text-align: center;
+            cursor: pointer;
+            transition: .25s;
+        }
+
+        .product-card:hover,
+        .product-card.active {
+            transform: translateY(-6px);
+            border: 2px solid #ee719e;
+            box-shadow: var(--shadow);
+        }
+
+        .product-image {
+            height: 180px;
+            border-radius: 18px;
+            background: linear-gradient(145deg,#fff0f5,#ffe1eb);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 70px;
+            margin-bottom: 15px;
+        }
+
+        .product-card h3 {
+            font-family: "Baloo 2";
+            font-size: 20px;
+        }
+
+        .product-card p {
+            color: var(--pink);
+            font-size: 13px;
+            margin-top: 5px;
+        }
+
+        /* CUSTOMIZER */
+        .customizer-section {
+            background: #fff1f6;
+        }
+
+        .customizer {
+            background: white;
+            border-radius: 30px;
+            padding: 25px;
+            display: grid;
+            grid-template-columns: 260px 1fr 280px;
+            gap: 25px;
+            box-shadow: var(--shadow);
+        }
+
+        .panel-title {
+            font-family: "Baloo 2";
+            font-size: 23px;
+            color: #d95787;
+            margin-bottom: 15px;
+        }
+
+        .bead-menu {
+            display: grid;
+            grid-template-columns: repeat(2,1fr);
+            gap: 12px;
+        }
+
+        .bead-option {
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 10px 5px;
+            text-align: center;
+            background: #fffafa;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .bead-option:hover {
+            border-color: var(--pink);
+            transform: scale(1.03);
+        }
+
+        .bead {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            margin: auto auto 7px;
+            box-shadow:
+                inset -5px -7px 10px rgba(0,0,0,.08),
+                inset 4px 4px 8px rgba(255,255,255,.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .bead-name {
+            font-size: 12px;
+        }
+
+        .price {
+            color: var(--pink);
+            font-weight: 700;
+            font-size: 11px;
+        }
+
+        /* PREVIEW */
+        .preview {
+            background: #fff5f8;
+            border-radius: 25px;
+            min-height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .preview h3 {
+            position: absolute;
+            top: 20px;
+            font-family: "Baloo 2";
+            color: #d95787;
+        }
+
+        .custom-bracelet {
+            width: 310px;
+            height: 310px;
+            border-radius: 50%;
+            border: 15px solid #f3d5df;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .bead-circle {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            position: absolute;
+            box-shadow:
+                inset -5px -5px 8px rgba(0,0,0,.12),
+                inset 4px 4px 8px rgba(255,255,255,.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        /* SUMMARY */
+        .summary {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 22px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .summary-list {
+            min-height: 230px;
+            max-height: 280px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            padding-right: 5px;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px dashed #efdce4;
+            font-size: 13px;
+        }
+
+        .total {
+            display: flex;
+            justify-content: space-between;
+            margin: auto 0 20px 0;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .total span:last-child {
+            color: var(--pink);
+        }
+
+        .full-btn {
+            width: 100%;
+        }
+
+        /* FOOTER */
+        footer {
+            background: #fff0f5;
+            padding: 50px 7%;
+            text-align: center;
+        }
+
+        footer p {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        /* MODAL */
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(91,49,65,.35);
+            backdrop-filter: blur(5px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .login-box {
+            width: 420px;
+            max-width: 90%;
+            background: white;
+            border-radius: 30px;
+            padding: 35px;
+            box-shadow: 0 25px 70px rgba(100,50,70,.2);
+            position: relative;
+            animation: popup .25s ease;
+        }
+
+        @keyframes popup {
+            from { transform: scale(.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .close-modal {
+            position: absolute;
+            right: 22px;
+            top: 18px;
+            border: none;
+            background: none;
+            font-size: 23px;
+            color: #b58c9c;
+            cursor: pointer;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .login-header .heart {
+            font-size: 38px;
+        }
+
+        .login-header h2 {
+            font-family: "Baloo 2";
+            font-size: 32px;
+            color: #d95787;
+        }
+
+        .login-header p {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 7px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 13px 15px;
+            border: 1px solid #efd9e2;
+            border-radius: 14px;
+            outline: none;
+            font-family: "Quicksand";
+        }
+
+        .form-group input:focus {
+            border-color: var(--pink);
+            box-shadow: 0 0 0 3px #ffeaf1;
+        }
+
+        .login-main-btn {
+            width: 100%;
+            margin-top: 5px;
+        }
+
+        .google-btn {
+            width: 100%;
+            padding: 12px;
+            border-radius: 25px;
+            border: 1px solid #eadde2;
+            background: white;
+            color: #654657;
+            font-family: "Quicksand";
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 12px;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #b999a6;
+            font-size: 12px;
+            margin: 18px 0;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: "";
+            height: 1px;
+            background: #f0dfe5;
+            flex: 1;
+        }
+
+        .switch-form {
+            text-align: center;
+            margin-top: 18px;
+            font-size: 13px;
+        }
+
+        .switch-form button {
+            border: none;
+            background: none;
+            color: var(--pink);
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        /* RESPONSIVE */
+        @media(max-width:1000px) {
+            nav { display:none; }
+            .hero { flex-direction: column; text-align:center; gap:50px; }
+            .hero h1 { font-size:50px; }
+            .benefits { grid-template-columns:repeat(2,1fr); }
+            .products { grid-template-columns:repeat(3,1fr); }
+            .customizer { grid-template-columns:1fr; }
+        }
+
+        @media(max-width:600px) {
+            header { padding:0 20px; }
+            .login-btn { padding:8px 12px; font-size:12px; }
+            .hero { padding:50px 20px; }
+            .hero h1 { font-size:43px; }
+            .hero-image { width:300px; height:300px; }
+            .bracelet { width:190px; height:190px; }
+            .benefits { grid-template-columns:1fr; padding:20px; }
+            .section { padding:55px 20px; }
+            .products { grid-template-columns:repeat(2,1fr); }
+            .custom-bracelet { width:260px; height:260px; }
+            .login-box { padding:25px; }
+        }
+    </style>
 </head>
-
-
 <body>
 
-
-<!-- ================= HEADER ================= -->
-
+<!-- HEADER -->
 <header>
-
-    <div class="logo">
-        ♡ Bea<span>Craft</span>
-    </div>
-
-
+    <div class="logo">♡ Bea<span>Craft</span></div>
     <nav>
         <a href="#home">Trang chủ</a>
         <a href="#products">Sản phẩm</a>
@@ -704,919 +621,363 @@ footer p {
         <a href="#guide">Hướng dẫn</a>
         <a href="#about">Về chúng tôi</a>
     </nav>
-
-
     <div class="header-right">
-
-        <!-- NÚT ĐĂNG NHẬP -->
-
-        <button class="login-btn"
-                onclick="openLogin()">
-            ♡ Đăng nhập
-        </button>
-
-        <button class="icon-btn">
-            🛍️
-        </button>
-
+        <button class="login-btn" onclick="openLogin()">♡ Đăng nhập</button>
+        <button class="icon-btn">🛍️</button>
     </div>
-
 </header>
 
-
-<!-- ================= HERO ================= -->
-
+<!-- HERO -->
 <section class="hero" id="home">
-
     <div class="hero-text">
-
-        <div class="hero-small">
-            ✦ Handmade theo cách của bạn ✦
-        </div>
-
-        <h1>
-            Tự tạo món đồ<br>
-            của riêng bạn ♡
-        </h1>
-
-        <p>
-            Chọn hạt. Xếp theo ý thích.<br>
-            Chúng tôi sẽ xâu thành sản phẩm thật dành riêng cho bạn.
-        </p>
-
-        <button class="primary-btn"
-                onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">
+        <div class="hero-small">✦ Handmade theo cách của bạn ✦</div>
+        <h1>Tự tạo món đồ<br>của riêng bạn ♡</h1>
+        <p>Chọn hạt. Xếp theo ý thích.<br>Chúng tôi sẽ xâu thành sản phẩm thật dành riêng cho bạn.</p>
+        <button class="primary-btn" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">
             Bắt đầu thiết kế →
         </button>
-
     </div>
-
-
     <div class="hero-image">
-
         <div class="bracelet">
             <div class="charm">🌸</div>
         </div>
-
     </div>
-
 </section>
 
-
-<!-- ================= BENEFITS ================= -->
-
+<!-- BENEFITS -->
 <section class="benefits">
-
     <div class="benefit">
         <div class="benefit-icon">💎</div>
-        <div>
-            <b>Đa dạng hạt</b><br>
-            <small>nhiều màu sắc</small>
-        </div>
+        <div><b>Đa dạng hạt</b><br><small>nhiều màu sắc</small></div>
     </div>
-
     <div class="benefit">
         <div class="benefit-icon">💗</div>
-        <div>
-            <b>Tùy chỉnh dễ dàng</b><br>
-            <small>theo sở thích</small>
-        </div>
+        <div><b>Tùy chỉnh dễ dàng</b><br><small>theo sở thích</small></div>
     </div>
-
     <div class="benefit">
         <div class="benefit-icon">🎀</div>
-        <div>
-            <b>Sản phẩm thủ công</b><br>
-            <small>được làm riêng</small>
-        </div>
+        <div><b>Sản phẩm thủ công</b><br><small>được làm riêng</small></div>
     </div>
-
     <div class="benefit">
         <div class="benefit-icon">📦</div>
-        <div>
-            <b>Giao hàng</b><br>
-            <small>toàn quốc</small>
-        </div>
+        <div><b>Giao hàng</b><br><small>toàn quốc</small></div>
     </div>
-
 </section>
 
-
-<!-- ================= PRODUCT ================= -->
-
+<!-- PRODUCT -->
 <section class="section" id="products">
-
     <div class="section-title">
-
         <h2>Chọn sản phẩm ♡</h2>
-
         <p>Bạn muốn tạo gì hôm nay?</p>
-
     </div>
-
-
     <div class="products">
-
-        <div class="product-card active"
-             onclick="selectProduct(this,'Vòng tay')">
-
+        <div class="product-card active" onclick="selectProduct(this,'Vòng tay')">
             <div class="product-image">📿</div>
-
             <h3>Vòng tay</h3>
-
             <p>→ Thiết kế ngay</p>
-
         </div>
-
-
-        <div class="product-card"
-             onclick="selectProduct(this,'Vòng cổ')">
-
+        <div class="product-card" onclick="selectProduct(this,'Vòng cổ')">
             <div class="product-image">📿</div>
-
             <h3>Vòng cổ</h3>
-
             <p>→ Thiết kế ngay</p>
-
         </div>
-
-
-        <div class="product-card"
-             onclick="selectProduct(this,'Dây điện thoại')">
-
+        <div class="product-card" onclick="selectProduct(this,'Dây điện thoại')">
             <div class="product-image">📱</div>
-
             <h3>Dây điện thoại</h3>
-
             <p>→ Thiết kế ngay</p>
-
         </div>
-
-
-        <div class="product-card"
-             onclick="selectProduct(this,'Móc khóa')">
-
+        <div class="product-card" onclick="selectProduct(this,'Móc khóa')">
             <div class="product-image">🔑</div>
-
             <h3>Móc khóa</h3>
-
             <p>→ Thiết kế ngay</p>
-
         </div>
-
-
-        <div class="product-card"
-             onclick="selectProduct(this,'Dây treo túi')">
-
+        <div class="product-card" onclick="selectProduct(this,'Dây treo túi')">
             <div class="product-image">🎀</div>
-
             <h3>Dây treo túi</h3>
-
             <p>→ Thiết kế ngay</p>
-
         </div>
-
     </div>
-
 </section>
 
-
-<!-- ================= CUSTOMIZER ================= -->
-
+<!-- CUSTOMIZER -->
 <section class="section customizer-section" id="custom">
-
     <div class="section-title">
-
         <h2>Tự thiết kế món đồ của bạn ♡</h2>
-
-        <p>
-            Chọn những hạt bạn yêu thích và xem thiết kế thay đổi ngay lập tức.
-        </p>
-
+        <p>Chọn những hạt bạn yêu thích và xem thiết kế thay đổi ngay lập tức.</p>
     </div>
-
 
     <div class="customizer">
-
-
         <!-- BEAD MENU -->
-
         <div>
-
-            <div class="panel-title">
-                Chọn hạt
-            </div>
-
-
+            <div class="panel-title">Chọn hạt</div>
             <div class="bead-menu">
-
-                <div class="bead-option"
-                     onclick="addBead('#f3a9c0','Hạt hồng',4000)">
-
-                    <div class="bead"
-                         style="background:#f3a9c0"></div>
-
+                <div class="bead-option" onclick="addBead('#f3a9c0','Hạt hồng',4000)">
+                    <div class="bead" style="background:#f3a9c0"></div>
                     <div class="bead-name">Hạt hồng</div>
-
                     <div class="price">4.000đ</div>
-
                 </div>
-
-
-                <div class="bead-option"
-                     onclick="addBead('#ffffff','Hạt ngọc',5000)">
-
-                    <div class="bead"
-                         style="background:white"></div>
-
+                <div class="bead-option" onclick="addBead('#ffffff','Hạt ngọc',5000)">
+                    <div class="bead" style="background:white; border: 1px solid #eee;"></div>
                     <div class="bead-name">Hạt ngọc</div>
-
                     <div class="price">5.000đ</div>
-
                 </div>
-
-
-                <div class="bead-option"
-                     onclick="addBead('#bfa9ee','Hạt tím',5000)">
-
-                    <div class="bead"
-                         style="background:#bfa9ee"></div>
-
+                <div class="bead-option" onclick="addBead('#bfa9ee','Hạt tím',5000)">
+                    <div class="bead" style="background:#bfa9ee"></div>
                     <div class="bead-name">Hạt tím</div>
-
                     <div class="price">5.000đ</div>
-
                 </div>
-
-
-                <div class="bead-option"
-                     onclick="addBead('#8ed7d0','Hạt xanh',4000)">
-
-                    <div class="bead"
-                         style="background:#8ed7d0"></div>
-
+                <div class="bead-option" onclick="addBead('#8ed7d0','Hạt xanh',4000)">
+                    <div class="bead" style="background:#8ed7d0"></div>
                     <div class="bead-name">Hạt xanh</div>
-
                     <div class="price">4.000đ</div>
-
                 </div>
-
-
-                <div class="bead-option"
-                     onclick="addBead('#f5d27d','Hạt vàng',4000)">
-
-                    <div class="bead"
-                         style="background:#f5d27d"></div>
-
+                <div class="bead-option" onclick="addBead('#f5d27d','Hạt vàng',4000)">
+                    <div class="bead" style="background:#f5d27d"></div>
                     <div class="bead-name">Hạt vàng</div>
-
                     <div class="price">4.000đ</div>
-
                 </div>
-
-
-                <div class="bead-option"
-                     onclick="addBead('#f6b6d1','Hạt hoa',8000)">
-
-                    <div class="bead"
-                         style="background:#f6b6d1">
-                        🌸
-                    </div>
-
+                <div class="bead-option" onclick="addBead('#f6b6d1','Hạt hoa',8000,'🌸')">
+                    <div class="bead" style="background:#f6b6d1">🌸</div>
                     <div class="bead-name">Hạt hoa</div>
-
                     <div class="price">8.000đ</div>
-
                 </div>
-
             </div>
-
 
             <br>
-
-
-            <div class="panel-title">
-                Charm
-            </div>
-
-
+            <div class="panel-title">Charm</div>
             <div class="bead-menu">
-
-                <div class="bead-option"
-                     onclick="addBead('#f3c4d7','Charm tim',8000)">
-
-                    <div class="bead"
-                         style="background:#f3c4d7">
-                        ♡
-                    </div>
-
+                <div class="bead-option" onclick="addBead('#f3c4d7','Charm tim',8000,'♡')">
+                    <div class="bead" style="background:#f3c4d7">♡</div>
                     <div class="bead-name">Tim</div>
-
                     <div class="price">8.000đ</div>
-
                 </div>
-
-
-                <div class="bead-option"
-                     onclick="addBead('#f5d18d','Charm sao',8000)">
-
-                    <div class="bead"
-                         style="background:#f5d18d">
-                        ⭐
-                    </div>
-
+                <div class="bead-option" onclick="addBead('#f5d18d','Charm sao',8000,'⭐')">
+                    <div class="bead" style="background:#f5d18d">⭐</div>
                     <div class="bead-name">Ngôi sao</div>
-
                     <div class="price">8.000đ</div>
-
                 </div>
-
             </div>
-
         </div>
-
 
         <!-- PREVIEW -->
-
         <div class="preview">
-
             <h3>Thiết kế của bạn ♡</h3>
-
-            <div class="custom-bracelet"
-                 id="braceletPreview">
-            </div>
-
+            <div class="custom-bracelet" id="braceletPreview"></div>
         </div>
-
 
         <!-- SUMMARY -->
-
         <div class="summary">
-
-            <div class="panel-title">
-                Thiết kế của bạn
+            <div class="panel-title">Thiết kế của bạn</div>
+            <div class="summary-list" id="summaryList">
+                <p style="font-size:13px;color:#a58b95">Hãy chọn hạt để bắt đầu thiết kế...</p>
             </div>
-
-            <div class="summary-list"
-                 id="summaryList">
-
-                <p style="font-size:13px;color:#a58b95">
-                    Hãy chọn hạt để bắt đầu thiết kế...
-                </p>
-
-            </div>
-
-
             <div class="total">
-
                 <span>Tổng cộng</span>
-
-                <span id="totalPrice">
-                    20.000đ
-                </span>
-
+                <span id="totalPrice">20.000đ</span>
             </div>
-
-
-            <button class="primary-btn full-btn"
-                    onclick="addToCart()">
-
-                🛍 Thêm vào giỏ
-
-            </button>
-
+            <button class="primary-btn full-btn" onclick="addToCart()">🛍 Thêm vào giỏ</button>
         </div>
-
     </div>
-
 </section>
 
-
-<!-- ================= GUIDE ================= -->
-
+<!-- GUIDE -->
 <section class="section" id="guide">
-
     <div class="section-title">
-
         <h2>Thiết kế thật đơn giản ♡</h2>
-
-        <p>
-            Chỉ vài bước để bạn có món đồ mang dấu ấn riêng.
-        </p>
-
+        <p>Chỉ vài bước để bạn có món đồ mang dấu ấn riêng.</p>
     </div>
-
-
     <div class="products">
-
         <div class="product-card">
-
             <div class="product-image">🛍️</div>
-
             <h3>01. Chọn sản phẩm</h3>
-
             <p>Chọn món đồ bạn muốn thiết kế.</p>
-
         </div>
-
-
         <div class="product-card">
-
             <div class="product-image">💎</div>
-
             <h3>02. Chọn hạt</h3>
-
             <p>Chọn màu sắc và loại hạt yêu thích.</p>
-
         </div>
-
-
         <div class="product-card">
-
             <div class="product-image">✨</div>
-
             <h3>03. Thiết kế</h3>
-
             <p>Sắp xếp hạt theo phong cách của bạn.</p>
-
         </div>
-
-
         <div class="product-card">
-
             <div class="product-image">📦</div>
-
             <h3>04. Đặt hàng</h3>
-
             <p>Chúng tôi xâu thành sản phẩm thật.</p>
-
         </div>
-
     </div>
-
 </section>
 
-
-<!-- ================= FOOTER ================= -->
-
+<!-- FOOTER -->
 <footer id="about">
-
-    <div class="logo">
-        ♡ Bea<span>Craft</span>
-    </div>
-
-    <p>
-        Tự thiết kế. Tự thể hiện. Tự tạo món đồ của riêng bạn.
-    </p>
-
+    <div class="logo">♡ Bea<span>Craft</span></div>
+    <p>Tự thiết kế. Tự thể hiện. Tự tạo món đồ của riêng bạn.</p>
     <br>
-
-    <p>
-        © 2026 BeaCraft. Handmade with love ♡
-    </p>
-
+    <p>© 2026 BeaCraft. Handmade with love ♡</p>
 </footer>
 
-
-<!-- ================= LOGIN MODAL ================= -->
-
+<!-- LOGIN MODAL -->
 <div class="modal" id="loginModal">
-
     <div class="login-box">
-
-        <button class="close-modal"
-                onclick="closeLogin()">
-            ×
-        </button>
-
-
+        <button class="close-modal" onclick="closeLogin()">×</button>
         <div class="login-header">
-
-            <div class="heart">
-                ♡
-            </div>
-
-            <h2 id="formTitle">
-                Chào bạn ♡
-            </h2>
-
-            <p id="formDescription">
-                Đăng nhập để lưu lại những thiết kế yêu thích.
-            </p>
-
+            <div class="heart">♡</div>
+            <h2 id="formTitle">Chào bạn ♡</h2>
+            <p id="formDescription">Đăng nhập để lưu lại những thiết kế yêu thích.</p>
         </div>
 
-
-        <!-- LOGIN FORM -->
-
-        <form id="loginForm"
-              onsubmit="loginDemo(event)">
-
+        <form id="loginForm" onsubmit="loginDemo(event)">
             <div class="form-group">
-
                 <label>Email</label>
-
-                <input
-                    type="email"
-                    placeholder="Nhập email của bạn"
-                    required
-                >
-
+                <input type="email" placeholder="Nhập email của bạn" required>
             </div>
-
-
             <div class="form-group">
-
                 <label>Mật khẩu</label>
-
-                <input
-                    type="password"
-                    placeholder="Nhập mật khẩu"
-                    required
-                >
-
+                <input type="password" placeholder="Nhập mật khẩu" required>
             </div>
-
-
-            <button class="primary-btn login-main-btn"
-                    type="submit">
-
-                Đăng nhập ♡
-
-            </button>
-
-
-            <div class="divider">
-                hoặc
-            </div>
-
-
-            <button class="google-btn"
-                    type="button"
-                    onclick="googleLoginDemo()">
-
-                🌈 Tiếp tục với Google
-
-            </button>
-
-
+            <button class="primary-btn login-main-btn" type="submit">Đăng nhập ♡</button>
+            <div class="divider">hoặc</div>
+            <button class="google-btn" type="button" onclick="googleLoginDemo()">🌈 Tiếp tục với Google</button>
             <div class="switch-form">
-
                 Chưa có tài khoản?
-
-                <button type="button"
-                        onclick="showRegister()">
-
-                    Đăng ký ngay
-
-                </button>
-
+                <button type="button" onclick="showRegister()">Đăng ký ngay</button>
             </div>
-
         </form>
 
-
-        <!-- REGISTER FORM -->
-
-        <form id="registerForm"
-              style="display:none"
-              onsubmit="registerDemo(event)">
-
+        <form id="registerForm" style="display:none" onsubmit="registerDemo(event)">
             <div class="form-group">
-
                 <label>Họ và tên</label>
-
-                <input
-                    type="text"
-                    placeholder="Tên của bạn"
-                    required
-                >
-
+                <input type="text" placeholder="Tên của bạn" required>
             </div>
-
-
             <div class="form-group">
-
                 <label>Email</label>
-
-                <input
-                    type="email"
-                    placeholder="Nhập email của bạn"
-                    required
-                >
-
+                <input type="email" placeholder="Nhập email của bạn" required>
             </div>
-
-
             <div class="form-group">
-
                 <label>Mật khẩu</label>
-
-                <input
-                    type="password"
-                    placeholder="Tạo mật khẩu"
-                    required
-                >
-
+                <input type="password" placeholder="Tạo mật khẩu" required>
             </div>
-
-
-            <button class="primary-btn login-main-btn"
-                    type="submit">
-
-                Tạo tài khoản ♡
-
-            </button>
-
-
+            <button class="primary-btn login-main-btn" type="submit">Tạo tài khoản ♡</button>
             <div class="switch-form">
-
                 Đã có tài khoản?
-
-                <button type="button"
-                        onclick="showLogin()">
-
-                    Đăng nhập
-
-                </button>
-
+                <button type="button" onclick="showLogin()">Đăng nhập</button>
             </div>
-
         </form>
-
     </div>
-
 </div>
 
-
 <script>
-
-/* ================= CUSTOMIZER ================= */
-
 let beads = [];
+const BASE_PRICE = 20000;
+let total = BASE_PRICE;
 
-let total = 20000;
-
-
-function addBead(color,name,price) {
-
-    beads.push({
-        color:color,
-        name:name,
-        price:price
-    });
-
+function addBead(color, name, price, icon = "") {
+    beads.push({ color, name, price, icon });
     total += price;
-
     renderBracelet();
-
     renderSummary();
-
 }
-
 
 function renderBracelet() {
-
-    const bracelet =
-        document.getElementById("braceletPreview");
-
+    const bracelet = document.getElementById("braceletPreview");
     bracelet.innerHTML = "";
-
     const max = 16;
+    const visibleBeads = beads.slice(-max);
 
-    beads.slice(-max).forEach((item,index) => {
-
-        const bead =
-            document.createElement("div");
-
+    visibleBeads.forEach((item, index) => {
+        const bead = document.createElement("div");
         bead.className = "bead-circle";
+        bead.style.background = item.color;
+        if (item.icon) bead.innerText = item.icon;
 
-        bead.style.background =
-            item.color;
-
-        const angle =
-            (360 / Math.max(beads.length,1))
-            * index;
-
-        bead.style.transform =
-            `rotate(${angle}deg)
-             translateY(-135px)
-             rotate(-${angle}deg)`;
-
+        const angle = (360 / Math.max(visibleBeads.length, 1)) * index;
+        bead.style.transform = `rotate(${angle}deg) translateY(-135px) rotate(-${angle}deg)`;
         bracelet.appendChild(bead);
-
     });
-
 }
-
 
 function renderSummary() {
-
-    const list =
-        document.getElementById("summaryList");
-
+    const list = document.getElementById("summaryList");
     list.innerHTML = "";
 
-    if(beads.length === 0) {
-
-        list.innerHTML =
-        `<p style="font-size:13px;color:#a58b95">
-            Hãy chọn hạt để bắt đầu thiết kế...
-        </p>`;
-
+    if (beads.length === 0) {
+        list.innerHTML = `<p style="font-size:13px;color:#a58b95">Hãy chọn hạt để bắt đầu thiết kế...</p>`;
+    } else {
+        beads.forEach((item, index) => {
+            const row = document.createElement("div");
+            row.className = "summary-item";
+            row.innerHTML = `
+                <span>${index + 1}. ${item.name}</span>
+                <span>${item.price.toLocaleString("vi-VN")}đ</span>
+            `;
+            list.appendChild(row);
+        });
+        list.scrollTop = list.scrollHeight;
     }
 
-
-    beads.forEach((item,index) => {
-
-        const row =
-            document.createElement("div");
-
-        row.className =
-            "summary-item";
-
-        row.innerHTML = `
-            <span>
-                ${index + 1}. ${item.name}
-            </span>
-
-            <span>
-                ${item.price.toLocaleString("vi-VN")}đ
-            </span>
-        `;
-
-        list.appendChild(row);
-
-    });
-
-
-    document.getElementById("totalPrice")
-        .innerText =
-        total.toLocaleString("vi-VN") + "đ";
-
+    document.getElementById("totalPrice").innerText = total.toLocaleString("vi-VN") + "đ";
 }
 
-
-/* ================= PRODUCT ================= */
-
-function selectProduct(card,name) {
-
-    document
-        .querySelectorAll(".product-card")
-        .forEach(item =>
-            item.classList.remove("active")
-        );
-
+function selectProduct(card, name) {
+    document.querySelectorAll(".product-card").forEach(item => item.classList.remove("active"));
     card.classList.add("active");
-
-    document
-        .getElementById("custom")
-        .scrollIntoView({
-            behavior:"smooth"
-        });
-
+    document.getElementById("custom").scrollIntoView({ behavior: "smooth" });
 }
-
-
-/* ================= CART ================= */
 
 function addToCart() {
-
-    if(beads.length === 0) {
-
-        alert(
-            "♡ Bạn hãy chọn ít nhất một loại hạt trước nhé!"
-        );
-
+    if (beads.length === 0) {
+        alert("♡ Bạn hãy chọn ít nhất một loại hạt trước nhé!");
         return;
     }
-
-    alert(
-        "🎀 Đã thêm thiết kế của bạn vào giỏ hàng!"
-    );
-
+    alert(`🎀 Đã thêm thiết kế của bạn vào giỏ hàng!\nTổng tiền: ${total.toLocaleString("vi-VN")}đ`);
 }
-
-
-/* ================= LOGIN ================= */
 
 function openLogin() {
-
-    document
-        .getElementById("loginModal")
-        .classList.add("show");
-
+    document.getElementById("loginModal").classList.add("show");
     showLogin();
-
 }
-
 
 function closeLogin() {
-
-    document
-        .getElementById("loginModal")
-        .classList.remove("show");
-
+    document.getElementById("loginModal").classList.remove("show");
 }
-
-
-/* ================= LOGIN FORM ================= */
 
 function showLogin() {
-
-    document
-        .getElementById("loginForm")
-        .style.display = "block";
-
-    document
-        .getElementById("registerForm")
-        .style.display = "none";
-
-    document
-        .getElementById("formTitle")
-        .innerText = "Chào bạn ♡";
-
-    document
-        .getElementById("formDescription")
-        .innerText =
-        "Đăng nhập để lưu lại những thiết kế yêu thích.";
-
+    document.getElementById("loginForm").style.display = "block";
+    document.getElementById("registerForm").style.display = "none";
+    document.getElementById("formTitle").innerText = "Chào bạn ♡";
+    document.getElementById("formDescription").innerText = "Đăng nhập để lưu lại những thiết kế yêu thích.";
 }
-
-
-/* ================= REGISTER FORM ================= */
 
 function showRegister() {
-
-    document
-        .getElementById("loginForm")
-        .style.display = "none";
-
-    document
-        .getElementById("registerForm")
-        .style.display = "block";
-
-    document
-        .getElementById("formTitle")
-        .innerText = "Tạo tài khoản ♡";
-
-    document
-        .getElementById("formDescription")
-        .innerText =
-        "Tạo tài khoản để lưu thiết kế của riêng bạn.";
-
+    document.getElementById("loginForm").style.display = "none";
+    document.getElementById("registerForm").style.display = "block";
+    document.getElementById("formTitle").innerText = "Tạo tài khoản ♡";
+    document.getElementById("formDescription").innerText = "Tạo tài khoản để lưu thiết kế của riêng bạn.";
 }
-
-
-/* ================= DEMO LOGIN ================= */
 
 function loginDemo(event) {
-
     event.preventDefault();
-
-    alert(
-        "♡ Đăng nhập thành công!\n\nĐây đang là bản demo. Sau này có thể kết nối Firebase Authentication."
-    );
-
+    alert("♡ Đăng nhập thành công!\n\nĐây đang là bản demo.");
     closeLogin();
-
 }
-
 
 function registerDemo(event) {
-
     event.preventDefault();
-
-    alert(
-        "🎀 Tạo tài khoản thành công!\n\nĐây đang là bản demo. Sau này có thể kết nối Firebase Authentication."
-    );
-
+    alert("🎀 Tạo tài khoản thành công!\n\nĐây đang là bản demo.");
     closeLogin();
-
 }
-
 
 function googleLoginDemo() {
-
-    alert(
-        "🌸 Chức năng Google Login sẽ được kết nối Firebase ở bước tiếp theo."
-    );
-
+    alert("🌸 Chức năng Google Login đang được chuẩn bị kết nối.");
 }
 
-
-/* ================= CLICK OUTSIDE MODAL ================= */
-
-document
-    .getElementById("loginModal")
-    .addEventListener("click",function(event) {
-
-        if(event.target === this) {
-            closeLogin();
-        }
-
-    });
-
+document.getElementById("loginModal").addEventListener("click", function(event) {
+    if (event.target === this) {
+        closeLogin();
+    }
+});
 </script>
 
 </body>
