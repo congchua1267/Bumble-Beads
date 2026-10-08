@@ -867,117 +867,229 @@
         </form>
     </div>
 </div>
+<!-- THAY THẾ TOÀN BỘ THẺ SCRIPT CŨ BẰNG ĐOẠN NÀY -->
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { 
+        getAuth, 
+        createUserWithEmailAndPassword, 
+        signInWithEmailAndPassword, 
+        sendEmailVerification, 
+        GoogleAuthProvider, 
+        signInWithPopup, 
+        signOut, 
+        onAuthStateChanged 
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-<script>
-let beads = [];
-const BASE_PRICE = 20000;
-let total = BASE_PRICE;
+    // Cấu hình Firebase của Bumble-Beads
+    const firebaseConfig = {
+  apiKey: "AIzaSyDz1v11w2wrGhVQnXBiFSg6gp3CqQ4w7kE",
+  authDomain: "bumble-beads.firebaseapp.com",
+  projectId: "bumble-beads",
+  storageBucket: "bumble-beads.firebasestorage.app",
+  messagingSenderId: "488731939333",
+  appId: "1:488731939333:web:e21aff8cb439e608eb026c"
+};
 
-function addBead(color, name, price, icon = "") {
-    beads.push({ color, name, price, icon });
-    total += price;
-    renderBracelet();
-    renderSummary();
-}
+    // Khởi tạo Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const provider = new GoogleAuthProvider();
 
-function renderBracelet() {
-    const bracelet = document.getElementById("braceletPreview");
-    bracelet.innerHTML = "";
-    const max = 16;
-    const visibleBeads = beads.slice(-max);
+    /* ================= AUTHENTICATION LOGIC ================= */
 
-    visibleBeads.forEach((item, index) => {
-        const bead = document.createElement("div");
-        bead.className = "bead-circle";
-        bead.style.background = item.color;
-        if (item.icon) bead.innerText = item.icon;
-
-        const angle = (360 / Math.max(visibleBeads.length, 1)) * index;
-        bead.style.transform = `rotate(${angle}deg) translateY(-135px) rotate(-${angle}deg)`;
-        bracelet.appendChild(bead);
+    onAuthStateChanged(auth, (user) => {
+        const loginBtn = document.querySelector(".login-btn");
+        if (user) {
+            loginBtn.innerText = `♡ ${user.displayName || user.email.split('@')[0]}`;
+            loginBtn.onclick = handleSignOut;
+        } else {
+            loginBtn.innerText = "♡ Đăng nhập";
+            loginBtn.onclick = openLogin;
+        }
     });
-}
 
-function renderSummary() {
-    const list = document.getElementById("summaryList");
-    list.innerHTML = "";
+    // 1. Đăng ký & Gửi Email xác thực
+    async function registerUser(event) {
+        event.preventDefault();
+        const email = event.target.querySelector('input[type="email"]').value;
+        const password = event.target.querySelector('input[type="password"]').value;
 
-    if (beads.length === 0) {
-        list.innerHTML = `<p style="font-size:13px;color:#a58b95">Hãy chọn hạt để bắt đầu thiết kế...</p>`;
-    } else {
-        beads.forEach((item, index) => {
-            const row = document.createElement("div");
-            row.className = "summary-item";
-            row.innerHTML = `
-                <span>${index + 1}. ${item.name}</span>
-                <span>${item.price.toLocaleString("vi-VN")}đ</span>
-            `;
-            list.appendChild(row);
+        try {
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            await sendEmailVerification(userCredential.user);
+            alert("🎀 Đăng ký thành công!\nMột liên kết xác thực đã được gửi tới email của bạn. Vui lòng bấm xác nhận trong hộp thư trước khi đăng nhập nhé.");
+            event.target.reset();
+            showLogin();
+        } catch (error) {
+            handleAuthError(error);
+        }
+    }
+
+    // 2. Đăng nhập Email & Mật khẩu
+    async function loginUser(event) {
+        event.preventDefault();
+        const email = event.target.querySelector('input[type="email"]').value;
+        const password = event.target.querySelector('input[type="password"]').value;
+
+        try {
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
+
+            if (!user.emailVerified) {
+                alert("⚠️ Tài khoản chưa xác thực email!\nVui lòng vào hộp thư của bạn bấm vào link xác nhận trước.");
+                await signOut(auth);
+                return;
+            }
+
+            alert("♡ Đăng nhập thành công!");
+            closeLogin();
+        } catch (error) {
+            handleAuthError(error);
+        }
+    }
+
+    // 3. Đăng nhập Google
+    async function loginWithGoogle() {
+        try {
+            await signInWithPopup(auth, provider);
+            alert("🌈 Đăng nhập Google thành công!");
+            closeLogin();
+        } catch (error) {
+            handleAuthError(error);
+        }
+    }
+
+    // 4. Đăng xuất
+    async function handleSignOut() {
+        if (confirm("Bạn có muốn đăng xuất không?")) {
+            await signOut(auth);
+            alert("Đã đăng xuất!");
+        }
+    }
+
+    function handleAuthError(error) {
+        switch (error.code) {
+            case 'auth/email-already-in-use':
+                alert("❌ Email này đã được đăng ký rồi!");
+                break;
+            case 'auth/invalid-email':
+                alert("❌ Email không hợp lệ!");
+                break;
+            case 'auth/weak-password':
+                alert("❌ Mật khẩu cần tối thiểu 6 ký tự!");
+                break;
+            case 'auth/wrong-password':
+            case 'auth/user-not-found':
+            case 'auth/invalid-credential':
+                alert("❌ Sai tài khoản hoặc mật khẩu!");
+                break;
+            case 'auth/popup-closed-by-user':
+                break;
+            default:
+                alert("❌ Lỗi: " + error.message);
+        }
+    }
+
+    // Gắn hàm vào window để gọi từ các nút bấm HTML
+    window.loginDemo = loginUser;
+    window.registerDemo = registerUser;
+    window.googleLoginDemo = loginWithGoogle;
+
+    /* ================= SHOPPING & GIAO DIỆN ================= */
+    let beads = [];
+    const BASE_PRICE = 20000;
+    let total = BASE_PRICE;
+
+    window.addBead = function(color, name, price, icon = "") {
+        beads.push({ color, name, price, icon });
+        total += price;
+        renderBracelet();
+        renderSummary();
+    };
+
+    function renderBracelet() {
+        const bracelet = document.getElementById("braceletPreview");
+        bracelet.innerHTML = "";
+        const max = 16;
+        const visibleBeads = beads.slice(-max);
+
+        visibleBeads.forEach((item, index) => {
+            const bead = document.createElement("div");
+            bead.className = "bead-circle";
+            bead.style.background = item.color;
+            if (item.icon) bead.innerText = item.icon;
+
+            const angle = (360 / Math.max(visibleBeads.length, 1)) * index;
+            bead.style.transform = `rotate(${angle}deg) translateY(-135px) rotate(-${angle}deg)`;
+            bracelet.appendChild(bead);
         });
-        list.scrollTop = list.scrollHeight;
     }
 
-    document.getElementById("totalPrice").innerText = total.toLocaleString("vi-VN") + "đ";
-}
+    function renderSummary() {
+        const list = document.getElementById("summaryList");
+        list.innerHTML = "";
 
-function selectProduct(card, name) {
-    document.querySelectorAll(".product-card").forEach(item => item.classList.remove("active"));
-    card.classList.add("active");
-    document.getElementById("custom").scrollIntoView({ behavior: "smooth" });
-}
+        if (beads.length === 0) {
+            list.innerHTML = `<p style="font-size:13px;color:#a58b95">Hãy chọn hạt để bắt đầu thiết kế...</p>`;
+        } else {
+            beads.forEach((item, index) => {
+                const row = document.createElement("div");
+                row.className = "summary-item";
+                row.innerHTML = `
+                    <span>${index + 1}. ${item.name}</span>
+                    <span>${item.price.toLocaleString("vi-VN")}đ</span>
+                `;
+                list.appendChild(row);
+            });
+            list.scrollTop = list.scrollHeight;
+        }
 
-function addToCart() {
-    if (beads.length === 0) {
-        alert("♡ Bạn hãy chọn ít nhất một loại hạt trước nhé!");
-        return;
+        document.getElementById("totalPrice").innerText = total.toLocaleString("vi-VN") + "đ";
     }
-    alert(`🎀 Đã thêm thiết kế của bạn vào giỏ hàng!\nTổng tiền: ${total.toLocaleString("vi-VN")}đ`);
-}
 
-function openLogin() {
-    document.getElementById("loginModal").classList.add("show");
-    showLogin();
-}
+    window.selectProduct = function(card, name) {
+        document.querySelectorAll(".product-card").forEach(item => item.classList.remove("active"));
+        card.classList.add("active");
+        document.getElementById("custom").scrollIntoView({ behavior: "smooth" });
+    };
 
-function closeLogin() {
-    document.getElementById("loginModal").classList.remove("show");
-}
+    window.addToCart = function() {
+        if (beads.length === 0) {
+            alert("♡ Bạn hãy chọn ít nhất một loại hạt trước nhé!");
+            return;
+        }
+        alert(`🎀 Đã thêm thiết kế của bạn vào giỏ hàng!\nTổng tiền: ${total.toLocaleString("vi-VN")}đ`);
+    };
 
-function showLogin() {
-    document.getElementById("loginForm").style.display = "block";
-    document.getElementById("registerForm").style.display = "none";
-    document.getElementById("formTitle").innerText = "Chào bạn ♡";
-    document.getElementById("formDescription").innerText = "Đăng nhập để lưu lại những thiết kế yêu thích.";
-}
+    window.openLogin = function() {
+        document.getElementById("loginModal").classList.add("show");
+        showLogin();
+    };
 
-function showRegister() {
-    document.getElementById("loginForm").style.display = "none";
-    document.getElementById("registerForm").style.display = "block";
-    document.getElementById("formTitle").innerText = "Tạo tài khoản ♡";
-    document.getElementById("formDescription").innerText = "Tạo tài khoản để lưu thiết kế của riêng bạn.";
-}
+    window.closeLogin = function() {
+        document.getElementById("loginModal").classList.remove("show");
+    };
 
-function loginDemo(event) {
-    event.preventDefault();
-    alert("♡ Đăng nhập thành công!\n\nĐây đang là bản demo.");
-    closeLogin();
-}
+    window.showLogin = function() {
+        document.getElementById("loginForm").style.display = "block";
+        document.getElementById("registerForm").style.display = "none";
+        document.getElementById("formTitle").innerText = "Chào bạn ♡";
+        document.getElementById("formDescription").innerText = "Đăng nhập để lưu lại những thiết kế yêu thích.";
+    };
 
-function registerDemo(event) {
-    event.preventDefault();
-    alert("🎀 Tạo tài khoản thành công!\n\nĐây đang là bản demo.");
-    closeLogin();
-}
+    window.showRegister = function() {
+        document.getElementById("loginForm").style.display = "none";
+        document.getElementById("registerForm").style.display = "block";
+        document.getElementById("formTitle").innerText = "Tạo tài khoản ♡";
+        document.getElementById("formDescription").innerText = "Tạo tài khoản để lưu thiết kế của riêng bạn.";
+    };
 
-function googleLoginDemo() {
-    alert("🌸 Chức năng Google Login đang được chuẩn bị kết nối.");
-}
-
-document.getElementById("loginModal").addEventListener("click", function(event) {
-    if (event.target === this) {
-        closeLogin();
-    }
-});
+    document.getElementById("loginModal").addEventListener("click", function(event) {
+        if (event.target === this) {
+            closeLogin();
+        }
+    });
 </script>
 
 </body>
