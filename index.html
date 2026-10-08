@@ -607,6 +607,146 @@
             .custom-bracelet { width:260px; height:260px; }
             .login-box { padding:25px; }
         }
+    /* ================= CART BUTTON & BADGE ================= */
+.cart-btn-wrapper {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cart-icon-btn {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px;
+    transition: transform .2s ease;
+}
+
+.cart-icon-btn:hover {
+    transform: scale(1.1);
+}
+
+.cart-badge {
+    position: absolute;
+    top: -3px;
+    right: -3px;
+    background: #e95f91;
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    min-width: 18px;
+    height: 18px;
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 4px;
+    border: 2px solid white;
+}
+
+/* ================= CART DRAWER (SIDEBAR) ================= */
+.cart-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(91, 49, 65, 0.35);
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+    display: none;
+    opacity: 0;
+    transition: opacity .3s ease;
+}
+
+.cart-overlay.show {
+    display: block;
+    opacity: 1;
+}
+
+.cart-drawer {
+    position: fixed;
+    top: 0;
+    right: -420px;
+    width: 380px;
+    max-width: 88%;
+    height: 100vh;
+    background: #fff;
+    box-shadow: -5px 0 25px rgba(0,0,0,0.1);
+    z-index: 1001;
+    display: flex;
+    flex-direction: column;
+    transition: right .3s ease;
+    padding: 24px;
+}
+
+.cart-drawer.open {
+    right: 0;
+}
+
+.cart-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #f6e1e8;
+}
+
+.cart-header h3 {
+    font-family: "Baloo 2", cursive;
+    color: #d95787;
+    font-size: 22px;
+}
+
+.cart-items {
+    flex: 1;
+    overflow-y: auto;
+    padding: 15px 0;
+}
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px dashed #f0dfe5;
+}
+
+.cart-item-info h4 {
+    font-size: 15px;
+    color: var(--text);
+}
+
+.cart-item-info p {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 4px;
+}
+
+.cart-item-price {
+    font-weight: 700;
+    color: var(--pink);
+    font-size: 14px;
+}
+
+.cart-remove-btn {
+    background: none;
+    border: none;
+    color: #cca4b3;
+    font-size: 18px;
+    cursor: pointer;
+    margin-left: 8px;
+}
+
+.cart-remove-btn:hover {
+    color: #d94e82;
+}
+
+.cart-footer {
+    border-top: 1px solid #f6e1e8;
+    padding-top: 15px;
+}
     </style>
 </head>
 <body>
@@ -623,7 +763,22 @@
     </nav>
     <div class="header-right">
         <button class="login-btn" onclick="openLogin()">♡ Đăng nhập</button>
-        <button class="icon-btn">🛍️</button>
+    <!-- NÚT GIỎ HÀNG MỚI -->
+        <div class="cart-btn-wrapper">
+            <button class="cart-icon-btn" onclick="openCart()" title="Giỏ hàng">
+                <svg width="30" height="30" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Túi xách viền nét bo góc mềm -->
+                    <path d="M6 9.5C6 8.67157 6.67157 8 7.5 8H20.5C21.3284 8 22 8.67157 22 9.5L20.8 21.2C20.7 22.2 19.8 23 18.8 23H9.2C8.2 23 7.3 22.2 7.2 21.2L6 9.5Z" stroke="#654657" stroke-width="2" stroke-linejoin="round"/>
+                    <!-- Quai túi -->
+                    <path d="M10 8V6C10 4.34315 11.3431 3 13 3H15C16.6569 3 18 4.34315 18 6V8" stroke="#654657" stroke-width="2" stroke-linecap="round"/>
+                    <!-- Chi tiết nơ/điểm nhấn hồng như ảnh -->
+                    <path d="M18.8 8.8C18.8 8.8 19.8 7.5 21 8.2C22.2 8.9 21.8 10.4 21 10.8C20.2 11.2 18.8 8.8 18.8 8.8Z" fill="#e95f91"/>
+                    <circle cx="19.2" cy="9.2" r="1.5" fill="#d94e82"/>
+                </svg>
+            </button>
+            <span class="cart-badge" id="cartCount">0</span>
+        </div>
+    </div>
     </div>
 </header>
 
@@ -867,6 +1022,30 @@
         </form>
     </div>
 </div>
+<!-- ================= GIỎ HÀNG SLIDE DRAWER ================= -->
+<div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
+<div class="cart-drawer" id="cartDrawer">
+    <div class="cart-header">
+        <h3>Giỏ hàng của bạn ♡</h3>
+        <button class="close-modal" onclick="closeCart()" style="position:static;">×</button>
+    </div>
+    
+    <div class="cart-items" id="cartItemsContainer">
+        <p style="text-align: center; color: var(--muted); margin-top: 40px; font-size: 14px;">
+            Giỏ hàng đang trống ♡
+        </p>
+    </div>
+
+    <div class="cart-footer">
+        <div class="total" style="margin: 0 0 16px 0;">
+            <span>Tổng thanh toán</span>
+            <span id="cartTotalSum">0đ</span>
+        </div>
+        <button class="primary-btn full-btn" onclick="checkoutOrder()">
+            Thanh toán ngay ♡
+        </button>
+    </div>
+</div>
 <!-- THAY THẾ TOÀN BỘ THẺ SCRIPT CŨ BẰNG ĐOẠN NÀY -->
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
@@ -1090,6 +1269,112 @@
             closeLogin();
         }
     });
+/* ================= LOGIC GIỎ HÀNG ================= */
+    let cart = [];
+    let currentProductName = "Vòng tay";
+
+    // Ghi nhận sản phẩm đang chọn khi click vào danh mục sản phẩm
+    const oldSelectProduct = window.selectProduct;
+    window.selectProduct = function(card, name) {
+        currentProductName = name;
+        if (typeof oldSelectProduct === "function") oldSelectProduct(card, name);
+    };
+
+    // Mở và đóng ngăn kéo giỏ hàng
+    window.openCart = function() {
+        document.getElementById("cartOverlay").classList.add("show");
+        document.getElementById("cartDrawer").classList.add("open");
+    };
+
+    window.closeCart = function() {
+        document.getElementById("cartOverlay").classList.remove("show");
+        document.getElementById("cartDrawer").classList.remove("open");
+    };
+
+    // Xóa từng món khỏi giỏ hàng
+    window.removeFromCart = function(id) {
+        cart = cart.filter(item => item.id !== id);
+        updateCartUI();
+    };
+
+    // Cập nhật giao diện giỏ hàng và huy hiệu số lượng
+    function updateCartUI() {
+        const container = document.getElementById("cartItemsContainer");
+        const countBadge = document.getElementById("cartCount");
+        const totalSum = document.getElementById("cartTotalSum");
+
+        countBadge.innerText = cart.length;
+
+        if (cart.length === 0) {
+            container.innerHTML = `
+                <p style="text-align: center; color: var(--muted); margin-top: 40px; font-size: 14px;">
+                    Giỏ hàng đang trống ♡
+                </p>`;
+            totalSum.innerText = "0đ";
+            return;
+        }
+
+        let finalTotal = 0;
+        container.innerHTML = "";
+
+        cart.forEach(item => {
+            finalTotal += item.price;
+            const row = document.createElement("div");
+            row.className = "cart-item";
+            row.innerHTML = `
+                <div class="cart-item-info">
+                    <h4>${item.product} (Tự thiết kế)</h4>
+                    <p>${item.beadsCount} hạt: ${item.beadsList}</p>
+                </div>
+                <div style="display:flex; align-items:center;">
+                    <span class="cart-item-price">${item.price.toLocaleString("vi-VN")}đ</span>
+                    <button class="cart-remove-btn" onclick="removeFromCart(${item.id})">×</button>
+                </div>
+            `;
+            container.appendChild(row);
+        });
+
+        totalSum.innerText = finalTotal.toLocaleString("vi-VN") + "đ";
+    }
+
+    // Ghi đè hàm thêm vào giỏ hàng
+    window.addToCart = function() {
+        if (beads.length === 0) {
+            alert("♡ Bạn hãy chọn ít nhất một loại hạt trước nhé!");
+            return;
+        }
+
+        const orderItem = {
+            id: Date.now(),
+            product: currentProductName,
+            beadsCount: beads.length,
+            beadsList: beads.map(b => b.name).join(", "),
+            price: total
+        };
+
+        cart.push(orderItem);
+        updateCartUI();
+
+        // Reset lại vòng thiết kế về ban đầu
+        beads = [];
+        total = BASE_PRICE;
+        renderBracelet();
+        renderSummary();
+
+        openCart();
+    };
+
+    // Xử lý nút thanh toán
+    window.checkoutOrder = function() {
+        if (cart.length === 0) {
+            alert("Giỏ hàng chưa có sản phẩm nào!");
+            return;
+        }
+        alert("🎀 Cảm ơn bạn! Đơn hàng tùy chỉnh đã được gửi thành công.");
+        cart = [];
+        updateCartUI();
+        closeCart();
+    };
 </script>
 
 </body>
