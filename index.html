@@ -837,8 +837,8 @@
     <div class="logo">♡ Bea<span>Craft</span></div>
     <nav>
         <a href="#home">Trang chủ</a>
-        <a href="#products">Sản phẩm</a>
-        <a href="#custom">Thiết kế</a>
+        <a href="#products" onclick="goToReadyProducts(event)">Sản phẩm</a>        
+        <a href="#products" onclick="goToCustomProducts(event)">Thiết kế</a>        
         <a href="#guide">Hướng dẫn</a>
         <a href="#about">Về chúng tôi</a>
     </nav>
@@ -1679,6 +1679,19 @@ window.submitOrder = function(event) {
             tabs[1].classList.add("active");
             document.getElementById("customTab").classList.add("active");
         }
+    };
+// Điều hướng từ menu tới tab Sản phẩm có sẵn
+    window.goToReadyProducts = function(event) {
+        if (event) event.preventDefault();
+        window.switchProductTab('ready');
+        document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
+    };
+
+    // Điều hướng từ menu tới tab Tự thiết kế
+    window.goToCustomProducts = function(event) {
+        if (event) event.preventDefault();
+        window.switchProductTab('custom');
+        document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
     };
 </script>
 
