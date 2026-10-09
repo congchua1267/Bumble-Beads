@@ -788,6 +788,46 @@
     display: none;
     line-height: 1.6;
 }
+/* ================= PRODUCT TABS ================= */
+.product-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 35px;
+}
+
+.tab-btn {
+    border: 2px solid var(--border);
+    background: white;
+    color: var(--text);
+    padding: 10px 24px;
+    border-radius: 25px;
+    font-family: "Quicksand", sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all .25s ease;
+}
+
+.tab-btn:hover {
+    border-color: var(--pink);
+    color: var(--pink);
+}
+
+.tab-btn.active {
+    background: var(--pink);
+    border-color: var(--pink);
+    color: white;
+    box-shadow: 0 6px 18px rgba(237, 107, 155, 0.3);
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: grid;
+}
     </style>
 </head>
 <body>
@@ -861,32 +901,87 @@
 </section>
 
 <!-- PRODUCT -->
+<!-- ================= PRODUCT ================= -->
 <section class="section" id="products">
     <div class="section-title">
-        <h2>Chọn sản phẩm ♡</h2>
-        <p>Bạn muốn tạo gì hôm nay?</p>
+        <h2>Sản phẩm của Bumble Beads ♡</h2>
+        <p>Chọn mẫu có sẵn hoặc tự sáng tạo theo phong cách của bạn</p>
     </div>
-    <div class="products">
-        <div class="product-card active" onclick="selectProduct(this,'Vòng tay')">
+
+    <!-- Nút chọn Tab -->
+    <div class="product-tabs">
+        <button class="tab-btn active" onclick="switchProductTab('ready')">
+            ✨ Sản phẩm có sẵn
+        </button>
+        <button class="tab-btn" onclick="switchProductTab('custom')">
+            🎨 Tự thiết kế theo ý thích
+        </button>
+    </div>
+
+    <!-- TAB 1: SẢN PHẨM CÓ SẴN (Để sau này bạn thêm ảnh, giá và chi tiết cụ thể) -->
+    <div class="products tab-content active" id="readyTab">
+        <div class="product-card">
+            <div class="product-image">📿</div>
+            <h3>Vòng tay Pastel Bloom</h3>
+            <p style="color: var(--text); font-weight: 700; font-size: 14px;">45.000đ</p>
+            <p>→ Xem chi tiết</p>
+        </div>
+
+        <div class="product-card">
+            <div class="product-image">📿</div>
+            <h3>Vòng cổ Ngọc Trai Kẹo</h3>
+            <p style="color: var(--text); font-weight: 700; font-size: 14px;">65.000đ</p>
+            <p>→ Xem chi tiết</p>
+        </div>
+
+        <div class="product-card">
+            <div class="product-image">📱</div>
+            <h3>Dây điện thoại Ribbon</h3>
+            <p style="color: var(--text); font-weight: 700; font-size: 14px;">39.000đ</p>
+            <p>→ Xem chi tiết</p>
+        </div>
+
+        <div class="product-card">
+            <div class="product-image">🔑</div>
+            <h3>Móc khóa Cỏ 4 Lá</h3>
+            <p style="color: var(--text); font-weight: 700; font-size: 14px;">29.000đ</p>
+            <p>→ Xem chi tiết</p>
+        </div>
+
+        <div class="product-card">
+            <div class="product-image">🎀</div>
+            <h3>Dây treo túi Strawberry</h3>
+            <p style="color: var(--text); font-weight: 700; font-size: 14px;">49.000đ</p>
+            <p>→ Xem chi tiết</p>
+        </div>
+    </div>
+
+    <!-- TAB 2: TỰ THIẾT KẾ (Dẫn qua khu vực Customizer) -->
+    <div class="products tab-content" id="customTab">
+        <div class="product-card" onclick="selectProduct(this,'Vòng tay')">
             <div class="product-image">📿</div>
             <h3>Vòng tay</h3>
             <p>→ Thiết kế ngay</p>
         </div>
+
         <div class="product-card" onclick="selectProduct(this,'Vòng cổ')">
             <div class="product-image">📿</div>
             <h3>Vòng cổ</h3>
             <p>→ Thiết kế ngay</p>
         </div>
+
         <div class="product-card" onclick="selectProduct(this,'Dây điện thoại')">
             <div class="product-image">📱</div>
             <h3>Dây điện thoại</h3>
             <p>→ Thiết kế ngay</p>
         </div>
+
         <div class="product-card" onclick="selectProduct(this,'Móc khóa')">
             <div class="product-image">🔑</div>
             <h3>Móc khóa</h3>
             <p>→ Thiết kế ngay</p>
         </div>
+
         <div class="product-card" onclick="selectProduct(this,'Dây treo túi')">
             <div class="product-image">🎀</div>
             <h3>Dây treo túi</h3>
@@ -1569,6 +1664,22 @@ window.submitOrder = function(event) {
             closeCheckout();
         }
     });
+// Hàm chuyển đổi giữa Sản phẩm có sẵn và Tự thiết kế
+    window.switchProductTab = function(tabName) {
+        const tabs = document.querySelectorAll(".tab-btn");
+        const contents = document.querySelectorAll(".tab-content");
+
+        tabs.forEach(tab => tab.classList.remove("active"));
+        contents.forEach(content => content.classList.remove("active"));
+
+        if (tabName === 'ready') {
+            tabs[0].classList.add("active");
+            document.getElementById("readyTab").classList.add("active");
+        } else {
+            tabs[1].classList.add("active");
+            document.getElementById("customTab").classList.add("active");
+        }
+    };
 </script>
 
 </body>
