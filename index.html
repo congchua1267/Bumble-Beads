@@ -1046,6 +1046,48 @@
         </button>
     </div>
 </div>
+<!-- ================= MODAL THÔNG TIN GIAO HÀNG ================= -->
+<div class="modal" id="checkoutModal">
+    <div class="login-box">
+        <button class="close-modal" onclick="closeCheckout()">×</button>
+        <div class="login-header">
+            <div class="heart">📦</div>
+            <h2>Thông tin đặt hàng ♡</h2>
+            <p>Vui lòng điền thông tin để tiệm gửi hàng đến bạn nhé.</p>
+        </div>
+
+        <form id="orderForm" onsubmit="submitOrder(event)">
+            <div class="form-group">
+                <label>Họ và tên người nhận</label>
+                <input type="text" id="custName" placeholder="Ví dụ: Nguyễn Văn A" required>
+            </div>
+
+            <div class="form-group">
+                <label>Số điện thoại</label>
+                <input type="tel" id="custPhone" placeholder="Ví dụ: 0912345678" pattern="[0-9]{10}" title="Vui lòng nhập 10 chữ số" required>
+            </div>
+
+            <div class="form-group">
+                <label>Địa chỉ nhận hàng</label>
+                <input type="text" id="custAddress" placeholder="Số nhà, tên đường, phường/xã, quận/huyện..." required>
+            </div>
+
+            <div class="form-group">
+                <label>Ghi chú cho tiệm (nếu có)</label>
+                <input type="text" id="custNote" placeholder="Kích thước tay, yêu cầu thêm hạt...">
+            </div>
+
+            <div class="total" style="font-size: 16px; margin: 15px 0;">
+                <span>Tổng cần thanh toán:</span>
+                <span id="modalOrderTotal" style="color: var(--pink);">0đ</span>
+            </div>
+
+            <button class="primary-btn login-main-btn" type="submit">
+                Hoàn tất đặt hàng ♡
+            </button>
+        </form>
+    </div>
+</div>
 <!-- THAY THẾ TOÀN BỘ THẺ SCRIPT CŨ BẰNG ĐOẠN NÀY -->
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
@@ -1363,18 +1405,77 @@
 
         openCart();
     };
+/* ================= LOGIC XÁC NHẬN ĐƠN HÀNG ================= */
 
-    // Xử lý nút thanh toán
+    // 1. Khi bấm "Thanh toán ngay" ở Giỏ hàng -> Mở popup thông tin
     window.checkoutOrder = function() {
         if (cart.length === 0) {
-            alert("Giỏ hàng chưa có sản phẩm nào!");
+            alert("Giỏ hàng của bạn đang trống!");
             return;
         }
-        alert("🎀 Cảm ơn bạn! Đơn hàng tùy chỉnh đã được gửi thành công.");
+
+        // Tính lại tổng tiền và đưa lên popup
+        const finalTotal = cart.reduce((sum, item) => sum + item.price, 0);
+        document.getElementById("modalOrderTotal").innerText = finalTotal.toLocaleString("vi-VN") + "đ";
+
+        // Tự động điền tên nếu khách đã đăng nhập
+        const currentUser = auth.currentUser;
+        if (currentUser && currentUser.displayName) {
+            const nameInput = document.getElementById("custName");
+            if (!nameInput.value) nameInput.value = currentUser.displayName;
+        }
+
+        // Đóng giỏ hàng và mở modal điền thông tin
+        closeCart();
+        document.getElementById("checkoutModal").classList.add("show");
+    };
+
+    window.closeCheckout = function() {
+        document.getElementById("checkoutModal").classList.remove("show");
+    };
+
+    // 2. Xử lý khi khách bấm nút "Hoàn tất đặt hàng"
+    window.submitOrder = function(event) {
+        event.preventDefault();
+
+        const orderData = {
+            orderId: "BC" + Date.now().toString().slice(-6),
+            customer: {
+                name: document.getElementById("custName").value.trim(),
+                phone: document.getElementById("custPhone").value.trim(),
+                address: document.getElementById("custAddress").value.trim(),
+                note: document.getElementById("custNote").value.trim()
+            },
+            items: cart,
+            totalAmount: cart.reduce((sum, item) => sum + item.price, 0),
+            createdAt: new Date().toLocaleString("vi-VN")
+        };
+
+        console.log("Đơn hàng mới nhận được:", orderData);
+
+        alert(
+            `🎀 ĐẶT HÀNG THÀNH CÔNG!\n` +
+            `-------------------------\n` +
+            `Mã đơn: ${orderData.orderId}\n` +
+            `Người nhận: ${orderData.customer.name}\n` +
+            `Số điện thoại: ${orderData.customer.phone}\n` +
+            `Địa chỉ: ${orderData.customer.address}\n` +
+            `Tổng tiền: ${orderData.totalAmount.toLocaleString("vi-VN")}đ\n\n` +
+            `Tiệm sẽ liên hệ sớm để chốt đơn với bạn nhé ♡`
+        );
+
+        event.target.reset();
         cart = [];
         updateCartUI();
-        closeCart();
+        closeCheckout();
     };
+
+    // Đóng popup khi click ra vùng xám bên ngoài
+    document.getElementById("checkoutModal").addEventListener("click", function(event) {
+        if (event.target === this) {
+            closeCheckout();
+        }
+    });
 </script>
 
 </body>
