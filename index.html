@@ -861,6 +861,86 @@
         gap: 10px;
     }
 }
+/* ================= FOOTER BỐ CỤC 2 BÊN ================= */
+footer {
+    background: #fff0f5;
+    padding: 40px 7% 30px;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding-bottom: 25px;
+    border-bottom: 1px solid #f8dce5;
+}
+
+.footer-brand {
+    text-align: left;
+}
+
+.footer-brand .logo {
+    margin-bottom: 6px;
+}
+
+.footer-brand p {
+    color: var(--muted);
+    font-size: 13px;
+    margin: 0;
+}
+
+.footer-links {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin: 0;
+}
+
+.footer-links a {
+    text-decoration: none;
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 500;
+    transition: color .2s;
+}
+
+.footer-links a:hover {
+    color: var(--pink);
+}
+
+.footer-links span {
+    color: var(--border);
+    font-size: 12px;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 20px;
+}
+
+.footer-bottom p {
+    color: var(--muted);
+    font-size: 12px;
+    margin: 0;
+}
+
+/* Đáp ứng tốt trên điện thoại di động */
+@media(max-width: 768px) {
+    .footer-content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    .footer-brand {
+        text-align: center;
+    }
+    .footer-links {
+        justify-content: center;
+    }
+}
     </style>
 </head>
 <body>
@@ -1133,29 +1213,37 @@
         </div>
     </div>
 </section>
-
-<!-- FOOTER -->
+<!-- ================= FOOTER ================= -->
 <!-- ================= FOOTER ================= -->
 <footer id="about">
-    <div class="logo"> 
-        ♡ Bea<span>Craft</span>
+    <div class="footer-content">
+        <!-- BÊN TRÁI: LOGO VÀ SLOGAN -->
+        <div class="footer-brand">
+            <div class="logo">
+                ♡ Bea<span>Craft</span>
+            </div>
+            <p>
+                Tự thiết kế. Tự thể hiện. Tự tạo món đồ của riêng bạn.
+            </p>
+        </div>
+
+        <!-- BÊN PHẢI: CÁC LIÊN KẾT CHÍNH SÁCH -->
+        <div class="footer-links">
+            <a href="#guide">Hướng dẫn mua hàng</a>
+            <span>|</span>
+            <a href="#guide">Hướng dẫn thanh toán</a>
+            <span>|</span>
+            <a href="#guide">Hướng dẫn giao nhận</a>
+            <span>|</span>
+            <a href="#terms">Điều khoản</a>
+        </div>
     </div>
 
-    <p>Tự thiết kế. Tự thể hiện. Tự tạo món đồ của riêng bạn.</p>
-    <!-- DÒNG LIÊN KẾT BÊN PHẢI -->
-    <div class="footer-links">
-        <a href="#guide">Hướng dẫn mua hàng</a>
-        <span>|</span>
-        <a href="#guide">Hướng dẫn thanh toán</a>
-        <span>|</span>
-        <a href="#guide">Hướng dẫn giao nhận</a>
-        <span>|</span>
-        <a href="#terms">Điều khoản</a>
+    <!-- DƯỚI CÙNG: DÒNG BẢN QUYỀN NẰM GIỮA -->
+    <div class="footer-bottom">
+        <p>© 2026 Bumble Beads · ♡ Handmade with love ♡</p>
     </div>
-
-    <p>© 2026 Bumble Beads · ♡ Handmade with love ♡</p>
-</footer>
-    
+</footer> 
 
 <!-- LOGIN MODAL -->
 <div class="modal" id="loginModal">
