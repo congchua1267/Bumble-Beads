@@ -942,6 +942,7 @@ footer {
     }
 }
     </style>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
 <body>
 
@@ -1340,7 +1341,10 @@ footer {
                 <label>Họ và tên người nhận</label>
                 <input type="text" id="custName" placeholder="Ví dụ: Nguyễn Văn A" required>
             </div>
-
+            <div class="form-group">
+                <label>Email nhận thông tin đơn hàng</label>
+                <input type="email" id="custEmail" placeholder="Nhập email để nhận mã vận đơn SPX" required>
+            </div>
             <div class="form-group">
                 <label>Số điện thoại</label>
                 <input type="tel" id="custPhone" placeholder="Ví dụ: 0912345678" pattern="[0-9]{10}" title="Vui lòng nhập 10 chữ số" required>
@@ -1743,56 +1747,85 @@ footer {
         }
     };
 
-    // 2. Hàm xử lý đặt hàng đã có thêm phương thức thanh toán
-window.submitOrder = function(event) {
+// Khởi tạo EmailJS (thay PUBLIC KEY lấy từ tab Account trên EmailJS)
+    emailjs.init(R2YN6bU1ZQ3wfHV5q);
+
+    // Hàm xử lý gửi đơn hàng và tự động gửi email xác nhận SPX
+    window.submitOrder = async function(event) {
         event.preventDefault();
+
+        const submitBtn = event.target.querySelector('button[type="submit"]');
+        submitBtn.innerText = "Đang gửi đơn hàng...";
+        submitBtn.disabled = true;
 
         const paymentEl = document.querySelector('input[name="paymentMethod"]:checked');
         const paymentMethod = paymentEl ? paymentEl.value : "COD";
-        const paymentText = paymentMethod === "COD" ? "Thanh toán khi nhận hàng (COD)" : "Chuyển khoản QR";
+        const paymentText = paymentMethod === "COD" ? "Thanh toán khi nhận hàng (COD)" : "Chuyển khoản";
 
-        // Tạo mã đơn hàng của shop và mã vận đơn SPX Express
+        // Tạo mã ngẫu nhiên cho vận đơn SPX
         const randomCode = Math.floor(10000000 + Math.random() * 90000000);
         const spxTrackingCode = "SPXVN" + randomCode;
         const internalOrderId = "BC" + Date.now().toString().slice(-6);
 
-        const orderData = {
-            orderId: internalOrderId,
-            shippingCarrier: "SPX Express",
-            trackingCode: spxTrackingCode,
-            customer: {
-                name: document.getElementById("custName").value.trim(),
-                phone: document.getElementById("custPhone").value.trim(),
-                address: document.getElementById("custAddress").value.trim(),
-                note: document.getElementById("custNote").value.trim(),
-                payment: paymentText
-            },
-            items: cart,
-            totalAmount: cart.reduce((sum, item) => sum + item.price, 0),
-            createdAt: new Date().toLocaleString("vi-VN")
+        // Lấy thông tin từ form
+        const custName = document.getElementById("custName").value.trim();
+        const custPhone = document.getElementById("custPhone").value.trim();
+        const custAddress = document.getElementById("custAddress").value.trim();
+        const custNote = document.getElementById("custNote") ? document.getElementById("custNote").value.trim() : "";
+        
+        // Tự động lấy email từ ô nhập hoặc từ tài khoản đã đăng nhập
+        let custEmail = "";
+        const emailInput = document.getElementById("custEmail");
+        if (emailInput && emailInput.value.trim()) {
+            custEmail = emailInput.value.trim();
+        } else if (auth.currentUser && auth.currentUser.email) {
+            custEmail = auth.currentUser.email;
+        }
+
+        const totalAmountStr = cart.reduce((sum, item) => sum + item.price, 0).toLocaleString("vi-VN") + "đ";
+        const itemsSummary = cart.map(i => `${i.product} (${i.beadsCount} hạt: ${i.beadsList})`).join(" | ");
+
+        // Các biến map khớp với template trên EmailJS
+        const templateParams = {
+            to_email: custEmail,
+            customer_name: custName,
+            customer_phone: custPhone,
+            customer_address: custAddress,
+            order_id: internalOrderId,
+            spx_code: spxTrackingCode,
+            order_items: itemsSummary,
+            payment_method: paymentText,
+            total_amount: totalAmountStr
         };
 
-        console.log("Đơn hàng mới tiếp nhận:", orderData);
+        try {
+            // Thay YOUR_TEMPLATE_ID của bạn từ Email Templates
+            await emailjs.send("service_wsn5i6n", "template_ociwlfo", templateParams);
 
-        alert(
-            `🎀 ĐẶT HÀNG THÀNH CÔNG!\n` +
-            `-----------------------------------\n` +
-            `• Mã đơn hàng: ${orderData.orderId}\n` +
-            `• Vận chuyển qua: SPX Express 🚚\n` +
-            `• Mã vận đơn SPX dự kiến: ${orderData.trackingCode}\n` +
-            `-----------------------------------\n` +
-            `• Người nhận: ${orderData.customer.name} (${orderData.customer.phone})\n` +
-            `• Giao đến: ${orderData.customer.address}\n` +
-            `• Hình thức: ${orderData.customer.payment}\n` +
-            `• Tổng thanh toán: ${orderData.totalAmount.toLocaleString("vi-VN")}đ\n\n` +
-            `Tiệm sẽ đóng gói và bàn giao cho bưu tá SPX Express sớm nhất nhé ♡`
-        );
+            alert(
+                `🎀 ĐẶT HÀNG THÀNH CÔNG!\n` +
+                `-----------------------------------\n` +
+                `• Mã đơn hàng: ${internalOrderId}\n` +
+                `• Vận chuyển qua: SPX Express \n` +
+                `• Mã vận đơn SPX: ${spxTrackingCode}\n` +
+                `-----------------------------------\n` +
+                `Email xác nhận đã gửi tới: ${custEmail || "email của bạn"} ♡\n` +
+                `Tiệm sẽ sớm liên hệ để chốt đơn với bạn nhé!`
+            );
 
-        event.target.reset();
-        window.toggleBankInfo(false);
-        cart = [];
-        updateCartUI();
-        closeCheckout();
+            event.target.reset();
+            window.toggleBankInfo(false);
+            cart = [];
+            updateCartUI();
+            closeCheckout();
+        } catch (error) {
+            console.error("Lỗi gửi email:", error);
+            alert("Đã ghi nhận đơn hàng thành công, nhưng gửi mail thông báo gặp sự cố nhỏ. Tiệm sẽ liên hệ qua SĐT nhé!");
+            closeCheckout();
+        } finally {
+            submitBtn.innerText = "Hoàn tất đặt hàng ♡";
+            submitBtn.disabled = false;
+        }
     };
     // Đóng popup khi click ra vùng xám bên ngoài
     document.getElementById("checkoutModal").addEventListener("click", function(event) {
