@@ -747,6 +747,47 @@
     border-top: 1px solid #f6e1e8;
     padding-top: 15px;
 }
+/* ================= PAYMENT METHODS ================= */
+.payment-methods {
+    display: flex;
+    gap: 12px;
+    margin-top: 6px;
+}
+
+.payment-option {
+    flex: 1;
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    background: #fffafa;
+    transition: .2s;
+}
+
+.payment-option input {
+    accent-color: var(--pink);
+    cursor: pointer;
+}
+
+.payment-option:hover {
+    border-color: var(--pink);
+}
+
+.bank-info-box {
+    margin-top: 10px;
+    padding: 10px 12px;
+    background: var(--pink-light);
+    border: 1px dashed var(--pink);
+    border-radius: 12px;
+    font-size: 12px;
+    color: var(--text);
+    display: none;
+    line-height: 1.6;
+}
     </style>
 </head>
 <body>
@@ -1055,7 +1096,14 @@
             <h2>Thông tin đặt hàng ♡</h2>
             <p>Vui lòng điền thông tin để tiệm gửi hàng đến bạn nhé.</p>
         </div>
-
+        <!-- THÔNG TIN VẬN CHUYỂN -->
+            <div style="background: #fff0f5; border: 1px dashed var(--pink); border-radius: 12px; padding: 10px 12px; margin-bottom: 15px; font-size: 13px; display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 18px;">🚚</span>
+                <div>
+                    <b>Đơn vị vận chuyển:</b> <span style="color: #ea580c; font-weight: 700;">SPX Express</span><br>
+                    <small style="color: var(--muted)">Mã vận đơn SPX sẽ được cung cấp ngay khi bạn đặt hàng.</small>
+                </div>
+            </div>
         <form id="orderForm" onsubmit="submitOrder(event)">
             <div class="form-group">
                 <label>Họ và tên người nhận</label>
@@ -1076,7 +1124,28 @@
                 <label>Ghi chú cho tiệm (nếu có)</label>
                 <input type="text" id="custNote" placeholder="Kích thước tay, yêu cầu thêm hạt...">
             </div>
+            <!-- CHÈN THÊM ĐOẠN NÀY DƯỚI Ô GHI CHÚ -->
+            <div class="form-group">
+                <label>Phương thức thanh toán</label>
+                <div class="payment-methods">
+                    <label class="payment-option">
+                        <input type="radio" name="paymentMethod" value="COD" checked onchange="toggleBankInfo(false)">
+                        <span>💵 Thanh toán khi nhận hàng (COD)</span>
+                    </label>
 
+                    <label class="payment-option">
+                        <input type="radio" name="paymentMethod" value="BANK" onchange="toggleBankInfo(true)">
+                        <span>💳 Chuyển khoản QR</span>
+                    </label>
+                </div>
+
+                <!-- Thông tin chuyển khoản hiện ra khi chọn "Chuyển khoản QR" -->
+                <div class="bank-info-box" id="bankInfoBox">
+                    🌸 <b>BIDV:</b> 8842873010 (NGUYEN THI PHUONG THAO)<br>
+                    🌸 <b>Nội dung CK:</b> <span id="transferNote">BB_Số lượng_Tên người đặt</span><br>
+                    <small style="color:var(--muted)">*Bạn có thể chuyển khoản sau khi bấm Hoàn tất đặt hàng nhé*</small>
+                </div>
+            </div>
             <div class="total" style="font-size: 16px; margin: 15px 0;">
                 <span>Tổng cần thanh toán:</span>
                 <span id="modalOrderTotal" style="color: var(--pink);">0đ</span>
@@ -1435,41 +1504,65 @@
     };
 
     // 2. Xử lý khi khách bấm nút "Hoàn tất đặt hàng"
-    window.submitOrder = function(event) {
+   // Thêm hàm ẩn/hiện thông tin chuyển khoản ngân hàng
+    window.toggleBankInfo = function(isBank) {
+        const box = document.getElementById("bankInfoBox");
+        if (box) {
+            box.style.display = isBank ? "block" : "none";
+        }
+    };
+
+    // 2. Hàm xử lý đặt hàng đã có thêm phương thức thanh toán
+window.submitOrder = function(event) {
         event.preventDefault();
 
+        const paymentEl = document.querySelector('input[name="paymentMethod"]:checked');
+        const paymentMethod = paymentEl ? paymentEl.value : "COD";
+        const paymentText = paymentMethod === "COD" ? "Thanh toán khi nhận hàng (COD)" : "Chuyển khoản QR";
+
+        // Tạo mã đơn hàng của shop và mã vận đơn SPX Express
+        const randomCode = Math.floor(10000000 + Math.random() * 90000000);
+        const spxTrackingCode = "SPXVN" + randomCode;
+        const internalOrderId = "BC" + Date.now().toString().slice(-6);
+
         const orderData = {
-            orderId: "BC" + Date.now().toString().slice(-6),
+            orderId: internalOrderId,
+            shippingCarrier: "SPX Express",
+            trackingCode: spxTrackingCode,
             customer: {
                 name: document.getElementById("custName").value.trim(),
                 phone: document.getElementById("custPhone").value.trim(),
                 address: document.getElementById("custAddress").value.trim(),
-                note: document.getElementById("custNote").value.trim()
+                note: document.getElementById("custNote").value.trim(),
+                payment: paymentText
             },
             items: cart,
             totalAmount: cart.reduce((sum, item) => sum + item.price, 0),
             createdAt: new Date().toLocaleString("vi-VN")
         };
 
-        console.log("Đơn hàng mới nhận được:", orderData);
+        console.log("Đơn hàng mới tiếp nhận:", orderData);
 
         alert(
             `🎀 ĐẶT HÀNG THÀNH CÔNG!\n` +
-            `-------------------------\n` +
-            `Mã đơn: ${orderData.orderId}\n` +
-            `Người nhận: ${orderData.customer.name}\n` +
-            `Số điện thoại: ${orderData.customer.phone}\n` +
-            `Địa chỉ: ${orderData.customer.address}\n` +
-            `Tổng tiền: ${orderData.totalAmount.toLocaleString("vi-VN")}đ\n\n` +
-            `Tiệm sẽ liên hệ sớm để chốt đơn với bạn nhé ♡`
+            `-----------------------------------\n` +
+            `• Mã đơn hàng: ${orderData.orderId}\n` +
+            `• Vận chuyển qua: SPX Express 🚚\n` +
+            `• Mã vận đơn SPX dự kiến: ${orderData.trackingCode}\n` +
+            `-----------------------------------\n` +
+            `• Người nhận: ${orderData.customer.name} (${orderData.customer.phone})\n` +
+            `• Giao đến: ${orderData.customer.address}\n` +
+            `• Hình thức: ${orderData.customer.payment}\n` +
+            `• Tổng thanh toán: ${orderData.totalAmount.toLocaleString("vi-VN")}đ\n\n` +
+            `Tiệm sẽ đóng gói và bàn giao cho bưu tá SPX Express sớm nhất nhé ♡`
         );
 
         event.target.reset();
+        window.toggleBankInfo(false);
         cart = [];
         updateCartUI();
         closeCheckout();
     };
-
     // Đóng popup khi click ra vùng xám bên ngoài
     document.getElementById("checkoutModal").addEventListener("click", function(event) {
         if (event.target === this) {
