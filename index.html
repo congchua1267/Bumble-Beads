@@ -828,6 +828,39 @@
 .tab-content.active {
     display: grid;
 }
+/* ================= FOOTER LINKS ================= */
+.footer-links {
+    display: flex;
+    justify-content: flex-end; /* Căn toàn bộ sang bên phải */
+    align-items: center;
+    gap: 15px;
+    margin: 25px 0 15px;
+    flex-wrap: wrap;
+}
+
+.footer-links a {
+    text-decoration: none;
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 500;
+    transition: color .2s;
+}
+
+.footer-links a:hover {
+    color: var(--pink);
+}
+
+.footer-links span {
+    color: var(--border);
+    font-size: 12px;
+}
+
+@media(max-width: 600px) {
+    .footer-links {
+        justify-content: center; /* Tự căn giữa trên điện thoại để không bị lệch */
+        gap: 10px;
+    }
+}
     </style>
 </head>
 <body>
@@ -1102,12 +1135,27 @@
 </section>
 
 <!-- FOOTER -->
+<!-- ================= FOOTER ================= -->
 <footer id="about">
-    <div class="logo">♡ Bea<span>Craft</span></div>
+    <div class="logo"> 
+        ♡ Bea<span>Craft</span>
+    </div>
+
     <p>Tự thiết kế. Tự thể hiện. Tự tạo món đồ của riêng bạn.</p>
-    <br>
-    <p>© 2026 BeaCraft. Handmade with love ♡</p>
+    <!-- DÒNG LIÊN KẾT BÊN PHẢI -->
+    <div class="footer-links">
+        <a href="#guide">Hướng dẫn mua hàng</a>
+        <span>|</span>
+        <a href="#guide">Hướng dẫn thanh toán</a>
+        <span>|</span>
+        <a href="#guide">Hướng dẫn giao nhận</a>
+        <span>|</span>
+        <a href="#terms">Điều khoản</a>
+    </div>
+
+    <p>© 2026 Bumble Beads · ♡ Handmade with love ♡</p>
 </footer>
+    
 
 <!-- LOGIN MODAL -->
 <div class="modal" id="loginModal">
