@@ -1187,12 +1187,6 @@ footer {
             <p>→ Thiết kế ngay</p>
         </div>
 
-        <div class="product-card" onclick="selectProduct(this,'Vòng cổ')">
-            <div class="product-image">📿</div>
-            <h3>Vòng cổ</h3>
-            <p>→ Thiết kế ngay</p>
-        </div>
-
         <div class="product-card" onclick="selectProduct(this,'Dây điện thoại')">
             <div class="product-image">📱</div>
             <h3>Dây điện thoại</h3>
@@ -1202,12 +1196,6 @@ footer {
         <div class="product-card" onclick="selectProduct(this,'Móc khóa')">
             <div class="product-image">🔑</div>
             <h3>Móc khóa</h3>
-            <p>→ Thiết kế ngay</p>
-        </div>
-
-        <div class="product-card" onclick="selectProduct(this,'Dây treo túi')">
-            <div class="product-image">🎀</div>
-            <h3>Dây treo túi</h3>
             <p>→ Thiết kế ngay</p>
         </div>
     </div>
@@ -1603,8 +1591,20 @@ footer {
     const BASE_PRICE = 20000;
     let total = BASE_PRICE;
 /* ================= NIKE-STYLE CUSTOMIZER LOGIC ================= */
-    
     // Danh sách bảng màu mô phỏng các loại hạt
+    // Hàm khi khách bấm chọn 1 trong 3 sản phẩm thiết kế ở trên
+    window.selectCustomCategory = function(presetKey) {
+        // Tự động đổi phôi hạt tương ứng (Vòng tay / Dây đt / Móc khóa)
+        if (typeof window.loadItemPreset === "function") {
+            window.loadItemPreset(presetKey);
+        }
+
+        // Tự động cuộn mượt xuống khu vực bàn thiết kế hạt
+        const customSection = document.getElementById("custom") || document.querySelector(".customizer-box");
+        if (customSection) {
+            customSection.scrollIntoView({ behavior: "smooth" });
+        }
+    };
     const BEAD_MATERIALS = [
         { name: "Hồng Pastel", color: "#ffb6c1", price: 3000 },
         { name: "Trắng Ngọc", color: "#f8f9fa", price: 4000 },
