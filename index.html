@@ -941,6 +941,115 @@ footer {
         justify-content: center;
     }
 }
+/* ================= NIKE-STYLE CUSTOMIZER ================= */
+.customizer-box {
+    display: flex;
+    gap: 30px;
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    max-width: 900px;
+    margin: 20px auto;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.preview-container {
+    flex: 1;
+    min-width: 320px;
+    background: radial-gradient(circle, #fff3f6 0%, #ffe4ec 100%);
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.preview-container svg {
+    max-width: 100%;
+    height: auto;
+    filter: drop-shadow(0 8px 16px rgba(237, 107, 155, 0.2));
+}
+
+/* Các hạt có thể click như từng bộ phận của giày */
+.bead-slot {
+    cursor: pointer;
+    transition: transform 0.2s ease, stroke-width 0.2s ease;
+}
+
+.bead-slot:hover {
+    transform-origin: center;
+    filter: brightness(1.1);
+}
+
+.bead-slot.selected {
+    stroke: #222222 !important;
+    stroke-width: 3px !important;
+    filter: drop-shadow(0 0 6px rgba(0,0,0,0.3));
+}
+
+.custom-controls {
+    flex: 1;
+    min-width: 300px;
+}
+
+.type-switch-btns {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.type-btn {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    background: white;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.type-btn.active {
+    background: var(--pink);
+    color: white;
+    border-color: var(--pink);
+}
+
+.color-palette {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.color-choice {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: 1.5px solid #eee;
+    border-radius: 12px;
+    padding: 8px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.color-choice:hover {
+    border-color: var(--pink);
+}
+
+.color-dot {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    box-shadow: inset 0 0 2px rgba(0,0,0,0.2);
+}
     </style>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
@@ -1110,79 +1219,47 @@ footer {
         <h2>Tự thiết kế món đồ của bạn ♡</h2>
         <p>Chọn những hạt bạn yêu thích và xem thiết kế thay đổi ngay lập tức.</p>
     </div>
-
-    <div class="customizer">
-        <!-- BEAD MENU -->
-        <div>
-            <div class="panel-title">Chọn hạt</div>
-            <div class="bead-menu">
-                <div class="bead-option" onclick="addBead('#f3a9c0','Hạt hồng',4000)">
-                    <div class="bead" style="background:#f3a9c0"></div>
-                    <div class="bead-name">Hạt hồng</div>
-                    <div class="price">4.000đ</div>
-                </div>
-                <div class="bead-option" onclick="addBead('#ffffff','Hạt ngọc',5000)">
-                    <div class="bead" style="background:white; border: 1px solid #eee;"></div>
-                    <div class="bead-name">Hạt ngọc</div>
-                    <div class="price">5.000đ</div>
-                </div>
-                <div class="bead-option" onclick="addBead('#bfa9ee','Hạt tím',5000)">
-                    <div class="bead" style="background:#bfa9ee"></div>
-                    <div class="bead-name">Hạt tím</div>
-                    <div class="price">5.000đ</div>
-                </div>
-                <div class="bead-option" onclick="addBead('#8ed7d0','Hạt xanh',4000)">
-                    <div class="bead" style="background:#8ed7d0"></div>
-                    <div class="bead-name">Hạt xanh</div>
-                    <div class="price">4.000đ</div>
-                </div>
-                <div class="bead-option" onclick="addBead('#f5d27d','Hạt vàng',4000)">
-                    <div class="bead" style="background:#f5d27d"></div>
-                    <div class="bead-name">Hạt vàng</div>
-                    <div class="price">4.000đ</div>
-                </div>
-                <div class="bead-option" onclick="addBead('#f6b6d1','Hạt hoa',8000,'🌸')">
-                    <div class="bead" style="background:#f6b6d1">🌸</div>
-                    <div class="bead-name">Hạt hoa</div>
-                    <div class="price">8.000đ</div>
-                </div>
-            </div>
-
-            <br>
-            <div class="panel-title">Charm</div>
-            <div class="bead-menu">
-                <div class="bead-option" onclick="addBead('#f3c4d7','Charm tim',8000,'♡')">
-                    <div class="bead" style="background:#f3c4d7">♡</div>
-                    <div class="bead-name">Tim</div>
-                    <div class="price">8.000đ</div>
-                </div>
-                <div class="bead-option" onclick="addBead('#f5d18d','Charm sao',8000,'⭐')">
-                    <div class="bead" style="background:#f5d18d">⭐</div>
-                    <div class="bead-name">Ngôi sao</div>
-                    <div class="price">8.000đ</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- PREVIEW -->
-        <div class="preview">
-            <h3>Thiết kế của bạn ♡</h3>
-            <div class="custom-bracelet" id="braceletPreview"></div>
-        </div>
-
-        <!-- SUMMARY -->
-        <div class="summary">
-            <div class="panel-title">Thiết kế của bạn</div>
-            <div class="summary-list" id="summaryList">
-                <p style="font-size:13px;color:#a58b95">Hãy chọn hạt để bắt đầu thiết kế...</p>
-            </div>
-            <div class="total">
-                <span>Tổng cộng</span>
-                <span id="totalPrice">20.000đ</span>
-            </div>
-            <button class="primary-btn full-btn" onclick="addToCart()">🛍 Thêm vào giỏ</button>
-        </div>
+<div class="customizer-box">
+    <!-- KHUNG PREVIEW MÔ PHỎNG SVG TƯƠNG TÁC -->
+    <div class="preview-container">
+        <svg id="canvasSvg" width="320" height="320" viewBox="0 0 320 320">
+            <!-- Dây rỗng làm khung nền -->
+            <path id="baseWire" d="" fill="none" stroke="#f0d5db" stroke-width="4" stroke-dasharray="4 4" />
+            
+            <!-- Nhóm chứa các vị trí hạt (Slots) -->
+            <g id="beadSlotsGroup"></g>
+            
+            <!-- Charm trang trí tâm điểm -->
+            <g id="centerCharmGroup" transform="translate(160, 255)">
+                <circle r="14" fill="#ffd1dc" stroke="#ed6b9b" stroke-width="2"/>
+                <text y="5" font-size="14" text-anchor="middle">🌸</text>
+            </g>
+        </svg>
+        <small style="color: var(--muted); margin-top: 10px;">💡 Bấm vào từng hạt trên dây rồi chọn màu bên phải để đổi</small>
     </div>
+
+    <!-- KHUNG ĐIỀU KHIỂN & BẢNG MÀU -->
+    <div class="custom-controls">
+        <h3 style="margin-bottom: 12px; font-size: 18px;">Chọn loại sản phẩm</h3>
+        <div class="type-switch-btns">
+            <button class="type-btn active" onclick="loadItemPreset('bracelet')">📿 Vòng tay</button>
+            <button class="type-btn" onclick="loadItemPreset('phone_strap')">📱 Dây điện thoại</button>
+            <button class="type-btn" onclick="loadItemPreset('keychain')">🔑 Móc khóa</button>
+        </div>
+
+        <div style="background: #fafafa; padding: 12px 16px; border-radius: 12px; margin-bottom: 15px;">
+            <span style="font-size: 13px; color: var(--muted);">Đang chọn: </span>
+            <b id="activeSlotLabel" style="color: var(--pink); font-size: 14px;">Hạt số 1</b>
+        </div>
+
+        <h4 style="font-size: 14px; margin-bottom: 8px;">Bảng màu / Loại hạt</h4>
+        <div class="color-palette" id="colorPaletteContainer"></div>
+
+        <button class="primary-btn" style="width: 100%; margin-top: 20px;" onclick="applyCustomToCart()">
+            Thêm thiết kế này vào giỏ ♡
+        </button>
+    </div>
+</div>
 </section>
 
 <!-- GUIDE -->
@@ -1525,54 +1602,168 @@ footer {
     let beads = [];
     const BASE_PRICE = 20000;
     let total = BASE_PRICE;
+/* ================= NIKE-STYLE CUSTOMIZER LOGIC ================= */
+    
+    // Danh sách bảng màu mô phỏng các loại hạt
+    const BEAD_MATERIALS = [
+        { name: "Hồng Pastel", color: "#ffb6c1", price: 3000 },
+        { name: "Trắng Ngọc", color: "#f8f9fa", price: 4000 },
+        { name: "Tím Lavender", color: "#d8b4e2", price: 3500 },
+        { name: "Xanh Mint", color: "#a8e6cf", price: 3000 },
+        { name: "Vàng Bơ", color: "#ffebb5", price: 3000 },
+        { name: "Xanh Baby", color: "#b3e5fc", price: 3500 },
+        { name: "Đỏ Cherry", color: "#ff6b81", price: 4000 },
+        { name: "Gỗ Mộc", color: "#d7ccc8", price: 5000 }
+    ];
 
-    window.addBead = function(color, name, price, icon = "") {
-        beads.push({ color, name, price, icon });
-        total += price;
-        renderBracelet();
-        renderSummary();
+    // Cấu hình phôi hình học cho từng phụ kiện
+    const PRESETS = {
+        bracelet: {
+            title: "Vòng tay",
+            totalSlots: 16,
+            calcPos: (i, total) => {
+                const angle = (i / total) * 2 * Math.PI - Math.PI / 2;
+                return { x: 160 + 95 * Math.cos(angle), y: 160 + 95 * Math.sin(angle) };
+            },
+            wirePath: "M 160,65 A 95,95 0 1,1 159.9,65",
+            charmPos: { x: 160, y: 255 }
+        },
+        phone_strap: {
+            title: "Dây điện thoại",
+            totalSlots: 14,
+            calcPos: (i, total) => {
+                const t = i / (total - 1);
+                if (t < 0.4) return { x: 120, y: 60 + (t / 0.4) * 160 };
+                if (t > 0.6) return { x: 200, y: 220 - ((t - 0.6) / 0.4) * 160 };
+                const curveT = (t - 0.4) / 0.2;
+                const angle = Math.PI - curveT * Math.PI;
+                return { x: 160 + 40 * Math.cos(angle), y: 220 + 35 * Math.sin(angle) };
+            },
+            wirePath: "M 120,60 L 120,220 A 40,35 0 0,0 200,220 L 200,60",
+            charmPos: { x: 160, y: 255 }
+        },
+        keychain: {
+            title: "Móc khóa",
+            totalSlots: 8,
+            calcPos: (i, total) => {
+                return { x: 160, y: 80 + i * 22 };
+            },
+            wirePath: "M 160,60 L 160,240",
+            charmPos: { x: 160, y: 260 }
+        }
     };
 
-    function renderBracelet() {
-        const bracelet = document.getElementById("braceletPreview");
-        bracelet.innerHTML = "";
-        const max = 16;
-        const visibleBeads = beads.slice(-max);
+    let currentPresetKey = 'bracelet';
+    let currentBeadColors = [];
+    let selectedSlotIndex = 0;
 
-        visibleBeads.forEach((item, index) => {
-            const bead = document.createElement("div");
-            bead.className = "bead-circle";
-            bead.style.background = item.color;
-            if (item.icon) bead.innerText = item.icon;
-
-            const angle = (360 / Math.max(visibleBeads.length, 1)) * index;
-            bead.style.transform = `rotate(${angle}deg) translateY(-135px) rotate(-${angle}deg)`;
-            bracelet.appendChild(bead);
+    // 1. Tạo bảng màu chọn nhanh
+    function renderColorPalette() {
+        const container = document.getElementById("colorPaletteContainer");
+        if (!container) return;
+        container.innerHTML = "";
+        BEAD_MATERIALS.forEach(mat => {
+            const btn = document.createElement("div");
+            btn.className = "color-choice";
+            btn.innerHTML = `
+                <div class="color-dot" style="background: ${mat.color}"></div>
+                <span>${mat.name}</span>
+            `;
+            btn.onclick = () => selectColorForSlot(mat);
+            container.appendChild(btn);
         });
     }
 
-    function renderSummary() {
-        const list = document.getElementById("summaryList");
-        list.innerHTML = "";
+    // 2. Chuyển đổi qua lại giữa Vòng tay / Dây đt / Móc khóa
+    window.loadItemPreset = function(presetKey) {
+        currentPresetKey = presetKey;
+        
+        document.querySelectorAll(".type-btn").forEach((btn, idx) => {
+            btn.classList.toggle("active", Object.keys(PRESETS)[idx] === presetKey);
+        });
 
-        if (beads.length === 0) {
-            list.innerHTML = `<p style="font-size:13px;color:#a58b95">Hãy chọn hạt để bắt đầu thiết kế...</p>`;
-        } else {
-            beads.forEach((item, index) => {
-                const row = document.createElement("div");
-                row.className = "summary-item";
-                row.innerHTML = `
-                    <span>${index + 1}. ${item.name}</span>
-                    <span>${item.price.toLocaleString("vi-VN")}đ</span>
-                `;
-                list.appendChild(row);
-            });
-            list.scrollTop = list.scrollHeight;
-        }
+        const config = PRESETS[presetKey];
+        const baseWire = document.getElementById("baseWire");
+        const centerCharm = document.getElementById("centerCharmGroup");
+        if (baseWire) baseWire.setAttribute("d", config.wirePath);
+        if (centerCharm) centerCharm.setAttribute("transform", `translate(${config.charmPos.x}, ${config.charmPos.y})`);
 
-        document.getElementById("totalPrice").innerText = total.toLocaleString("vi-VN") + "đ";
+        currentBeadColors = Array.from({ length: config.totalSlots }, (_, idx) => 
+            BEAD_MATERIALS[idx % 2]
+        );
+
+        selectedSlotIndex = 0;
+        updateActiveSlotLabel();
+        renderSvgSlots();
+    };
+
+    // 3. Render các hạt trên sợi dây
+    function renderSvgSlots() {
+        const group = document.getElementById("beadSlotsGroup");
+        if (!group) return;
+        const config = PRESETS[currentPresetKey];
+        group.innerHTML = "";
+
+        currentBeadColors.forEach((bead, idx) => {
+            const pos = config.calcPos(idx, config.totalSlots);
+
+            const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+            circle.setAttribute("cx", pos.x);
+            circle.setAttribute("cy", pos.y);
+            circle.setAttribute("r", 9);
+            circle.setAttribute("fill", bead.color);
+            circle.setAttribute("stroke", "#ffffff");
+            circle.setAttribute("stroke-width", "2");
+            circle.setAttribute("class", `bead-slot ${idx === selectedSlotIndex ? 'selected' : ''}`);
+
+            circle.onclick = () => {
+                selectedSlotIndex = idx;
+                updateActiveSlotLabel();
+                renderSvgSlots();
+            };
+
+            group.appendChild(circle);
+        });
     }
 
+    function updateActiveSlotLabel() {
+        const label = document.getElementById("activeSlotLabel");
+        if (label) {
+            label.innerText = `Hạt số ${selectedSlotIndex + 1} (${currentBeadColors[selectedSlotIndex]?.name || ""})`;
+        }
+    }
+
+    // 4. Đổi màu hạt đang chọn
+    function selectColorForSlot(material) {
+        if (selectedSlotIndex === null) return;
+        currentBeadColors[selectedSlotIndex] = material;
+        selectedSlotIndex = (selectedSlotIndex + 1) % PRESETS[currentPresetKey].totalSlots;
+        
+        updateActiveSlotLabel();
+        renderSvgSlots();
+    }
+
+    // 5. Thêm sản phẩm custom vào giỏ hàng
+    window.applyCustomToCart = function() {
+        const config = PRESETS[currentPresetKey];
+        const totalPrice = currentBeadColors.reduce((sum, b) => sum + b.price, 20000);
+        
+        const customItem = {
+            id: Date.now(),
+            product: `${config.title} Custom`,
+            beadsCount: currentBeadColors.length,
+            beadsList: currentBeadColors.map(b => b.name).join(", "),
+            price: totalPrice
+        };
+
+        cart.push(customItem);
+        if (typeof updateCartUI === "function") updateCartUI();
+        if (typeof openCart === "function") openCart();
+    };
+
+    // Khởi chạy khi tải trang
+    renderColorPalette();
+    loadItemPreset('bracelet');
     window.selectProduct = function(card, name) {
         document.querySelectorAll(".product-card").forEach(item => item.classList.remove("active"));
         card.classList.add("active");
